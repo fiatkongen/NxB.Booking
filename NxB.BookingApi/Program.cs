@@ -1,0 +1,73 @@
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using NxB.BookingApi.Controllers.Ordering;
+using NxB.BookingApi.Controllers.Accounting;
+using NxB.BookingApi.Controllers.Inventory;
+using NxB.BookingApi.Controllers.Login;
+using NxB.BookingApi.Infrastructure;
+using NxB.BookingApi.Models;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddOpenApi();
+
+// Add AutoMapper
+builder.Services.AddAutoMapper(typeof(Program));
+
+// Add Application Insights
+builder.Services.AddApplicationInsightsTelemetry();
+
+// Add Entity Framework
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Add custom services from merged APIs
+ConfigureOrderingServices(builder.Services, builder.Configuration);
+ConfigureAccountingServices(builder.Services, builder.Configuration);
+ConfigureInventoryServices(builder.Services, builder.Configuration);
+ConfigureLoginServices(builder.Services, builder.Configuration);
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.MapOpenApi();
+}
+
+app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
+
+app.Run();
+
+static void ConfigureOrderingServices(IServiceCollection services, IConfiguration configuration)
+{
+    // Services from OrderingApi Startup.cs
+    // Note: Service Fabric specific services removed/replaced with standard equivalents
+    services.AddAutoMapper(typeof(Program));
+}
+
+static void ConfigureAccountingServices(IServiceCollection services, IConfiguration configuration)
+{
+    // Services from AccountingApi Startup.cs
+    // Note: Service Fabric specific services removed/replaced with standard equivalents
+    services.AddAutoMapper(typeof(Program));
+}
+
+static void ConfigureInventoryServices(IServiceCollection services, IConfiguration configuration)
+{
+    // Services from InventoryApi Startup.cs
+    services.AddAutoMapper(typeof(Program));
+}
+
+static void ConfigureLoginServices(IServiceCollection services, IConfiguration configuration)
+{
+    // Services from LoginApi Startup.cs
+    services.AddAutoMapper(typeof(Program));
+}

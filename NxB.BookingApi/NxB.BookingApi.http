@@ -1,0 +1,6 @@
+@NxB.BookingApi_HostAddress = http://localhost:5007
+
+GET {{NxB.BookingApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
