@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using NxB.Domain.Common.Exceptions;
 using NxB.Domain.Common.Interfaces;
 using NxB.Dto.Clients;
-using NxB.Remoting.Interfaces.TallyWebIntegrationApi;
 using NxB.BookingApi.Models;
 
 namespace NxB.BookingApi.Infrastructure

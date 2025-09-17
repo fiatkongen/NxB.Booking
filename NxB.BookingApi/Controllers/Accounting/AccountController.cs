@@ -81,7 +81,7 @@ namespace NxB.BookingApi.Controllers.Accounting
         {
             var accountTotals = await _totalsService.CalculateAccountTotals(accountId);
             var invoicesTotal = await this._voucherRepository.CalculateTotalFromAccountId(accountId);
-            var ordersTotal = await _orderClient.CalculateAccountTotal(accountId);
+            var ordersTotal = await _orderRepository.CalculateAccountTotal(accountId);
             accountTotals.NotInvoiced = ordersTotal - invoicesTotal;
             return new ObjectResult(accountTotals);
         }
@@ -92,7 +92,7 @@ namespace NxB.BookingApi.Controllers.Accounting
         {
             var accountTotals = await _totalsService.CalculateOrderTotals(accountId, orderId);
             var invoiceTotal = await this._voucherRepository.CalculateTotalFromOrderId(orderId);
-            var orderTotal = await _orderClient.CalculateOrderTotal(orderId);
+            var orderTotal = await _orderRepository.CalculateOrderTotal(orderId);
             accountTotals.NotInvoiced = orderTotal - invoiceTotal;
             return new ObjectResult(accountTotals);
         }

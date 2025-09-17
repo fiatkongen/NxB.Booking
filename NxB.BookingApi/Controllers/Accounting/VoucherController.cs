@@ -27,7 +27,6 @@ using NxB.Dto.AccountingApi;
 using NxB.Dto.Clients;
 using NxB.Dto.Exceptions;
 using NxB.Dto.OrderingApi;
-using NxB.Remoting.Interfaces.SignalrApi;
 
 namespace NxB.BookingApi.Controllers.Accounting
 {
@@ -93,7 +92,8 @@ namespace NxB.BookingApi.Controllers.Accounting
         public async Task<ObjectResult> CreateInvoice([FromBody] CreateInvoiceDto createInvoiceDto)
         {
             using var transactionScope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Snapshot }, TransactionScopeAsyncFlowOption.Enabled);
-            var orderDto = await _orderClient.FindOrder(createInvoiceDto.OrderId);
+            var order = await _orderRepository.FindSingle(createInvoiceDto.OrderId, false);
+            var orderDto = _mapper.Map<Order, OrderDto>(order);
             var invoice = await this._invoiceService.CreateInvoice(Guid.NewGuid(), createInvoiceDto, orderDto);
             _voucherRepository.Add(invoice);
             await _appDbContext.SaveChangesAsync();
@@ -134,7 +134,7 @@ namespace NxB.BookingApi.Controllers.Accounting
             }
 
             var invoiceDto = this._voucherMapper.Map<InvoiceDto, Invoice>(invoice, new List<CreditNote>());
-            return new CreatedResult(new Uri("?id=" + invoice.Id, UriKind.Relative), invoiceDto);
+            return new CreatedResult(new Uri("?id=" + invoice.Id), invoiceDto);
         }
 
         [HttpPost]
@@ -143,7 +143,8 @@ namespace NxB.BookingApi.Controllers.Accounting
         {
             using var transactionScope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Snapshot }, TransactionScopeAsyncFlowOption.Enabled);
 
-            var orderDto = await _orderClient.FindOrder(createSpecificInvoiceDto.OrderId);
+            var order = await _orderRepository.FindSingle(createSpecificInvoiceDto.OrderId, false);
+            var orderDto = _mapper.Map<Order, OrderDto>(order);
             var invoice = await this._invoiceService.CreateInvoiceSpecific(Guid.NewGuid(), createSpecificInvoiceDto, orderDto);
             _voucherRepository.Add(invoice);
             await _appDbContext.SaveChangesAsync();
@@ -203,7 +204,9 @@ namespace NxB.BookingApi.Controllers.Accounting
             using var transactionScope = new TransactionScope(TransactionScopeOption.Required,
                 new TransactionOptions { IsolationLevel = IsolationLevel.Snapshot },
                 TransactionScopeAsyncFlowOption.Enabled);
-            var orderDto = await _orderClient.FindOrder(createDepositDto.OrderId);
+            var order = await _orderRepository.FindSingle(createDepositDto.OrderId, false);
+            var orderDto = _mapper.Map<Order, OrderDto>(order);
+            
 //            var friendlyId = _friendlyIdProvider.GenerateNextFriendlyDueDepositId();
             var deposit = await this._invoiceService.CreateDeposit(Guid.NewGuid(), createDepositDto, orderDto, friendlyId);
             deposit.DocumentId = createDepositDto.SaveId ??  Guid.NewGuid();
@@ -280,7 +283,8 @@ namespace NxB.BookingApi.Controllers.Accounting
             var friendlyId = await _memCacheActor.GenerateNextFriendlyDueDepositId(GetTenantId());
 
             using var transactionScope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Snapshot }, TransactionScopeAsyncFlowOption.Enabled);
-            var orderDto = await _orderClient.FindOrder(createSpecificDepositDto.OrderId);
+            var order = await _orderRepository.FindSingle(createSpecificDepositDto.OrderId, false);
+            var orderDto = _mapper.Map<Order, OrderDto>(order);
             var deposit = await this._invoiceService.CreateDepositSpecific(Guid.NewGuid(), createSpecificDepositDto, orderDto, friendlyId);
             deposit.DocumentId = Guid.NewGuid();
 
@@ -342,7 +346,8 @@ namespace NxB.BookingApi.Controllers.Accounting
         public async Task<ObjectResult> CreatePayment([FromBody] CreatePaymentDto createPaymentDto)
         {
             using var transactionScope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Snapshot }, TransactionScopeAsyncFlowOption.Enabled);
-            var orderDto = await _orderClient.FindOrder(createPaymentDto.OrderId);
+            var order = await _orderRepository.FindSingle(createPaymentDto.OrderId, false);
+            var orderDto = _mapper.Map<Order, OrderDto>(order);
 
             var payment = await _invoiceService.CreatePayment(orderDto, createPaymentDto.PaymentAmount, createPaymentDto.PaymentType,
                 createPaymentDto.Language, createPaymentDto.PaymentDate, createPaymentDto.InvoiceIds,
@@ -367,7 +372,8 @@ namespace NxB.BookingApi.Controllers.Accounting
         public async Task<ObjectResult> CreateSpecificPayment([FromBody] CreateSpecificPaymentDto dto)
         {
             using var transactionScope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Snapshot }, TransactionScopeAsyncFlowOption.Enabled);
-            var orderDto = await _orderClient.FindOrder(dto.OrderId);
+            var order = await _orderRepository.FindSingle(dto.OrderId, false);
+            var orderDto = _mapper.Map<Order, OrderDto>(order);
             var account = _accountRepository.FindSingle(orderDto.AccountId);
 
             var specificPayment = _voucherFactory.CreateSpecificPayment(Guid.NewGuid(), account, dto.PaymentAmount, dto.PaymentType, orderDto, dto.SpecificInvoiceId, dto.SpecificFriendlyInvoiceId, dto.Language, dto.PaymentDate, null);
@@ -854,7 +860,8 @@ namespace NxB.BookingApi.Controllers.Accounting
         [Route("filter/order/notinvoiced")]
         public async Task<ObjectResult> FilterNotInvoicedOrder([NoEmpty] Guid orderId)
         {
-            var orderDto = await _orderClient.FindOrder(orderId);
+            var order = await _orderRepository.FindSingle(orderId, false);
+            var orderDto = _mapper.Map<Order, OrderDto>(order);
             orderDto = await _invoiceService.RemoveInvoicedOrderLines(orderDto);
             return new ObjectResult(orderDto);
         }
