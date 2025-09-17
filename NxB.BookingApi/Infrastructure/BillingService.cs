@@ -1,5 +1,6 @@
 using NxB.Dto.AccountingApi;
 using NxB.BookingApi.Models;
+using NxB.Dto.TenantApi;
 
 namespace NxB.BookingApi.Infrastructure
 {

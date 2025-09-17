@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using NxB.Domain.Common.Interfaces;
 using NxB.BookingApi.Models;
+using NxB.Allocating.Shared.Infrastructure;
 
 namespace NxB.BookingApi.Infrastructure
 {

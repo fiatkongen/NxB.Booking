@@ -1,6 +1,5 @@
 ﻿using System;
 using NxB.Dto.AutomationApi;
-using NxB.MemCacheActor.Interfaces;
 using NxB.BookingApi.Models;
 using Microsoft.Extensions.DependencyInjection;
 using NxB.Domain.Common.Enums;
@@ -8,7 +7,6 @@ using NxB.Domain.Common.Model;
 using NxB.Dto.Clients;
 using NxB.Dto.OrderingApi;
 using NxB.Settings.Shared.Infrastructure;
-using ServiceStack.AsyncEx;
 using NxB.Dto.Shared;
 using Munk.Utils.Object;
 
@@ -27,13 +25,13 @@ namespace NxB.BookingApi.Infrastructure
             _serviceProvider = serviceProvider;
         }
 
-        public void EventLogged(AutomationEventLogItemDto automationEventLog)
+        public async Task EventLogged(AutomationEventLogItemDto automationEventLog)
         {
             //if (throw new NotImplementedException();
             //    )
         }
 
-        public void GateInEventLogged(AutomationEventLogItemDto automationEventLog)
+        public async Task GateInEventLogged(AutomationEventLogItemDto automationEventLog)
         {
             if (automationEventLog.SubOrderId != null && automationEventLog.Start?.Date == DateTime.Now.Date)
             {
@@ -41,30 +39,30 @@ namespace NxB.BookingApi.Infrastructure
                 var automationSettingsDto = SettingsRepository.GetAutomationSettings(tenantId);
                 if (automationSettingsDto == null || automationSettingsDto.Gates.Count == 0 || !automationSettingsDto.IsSetArrivedOnGateInEnabled) return;
 
-                AllocationStateClient.AuthorizeClient(tenantId).WaitAndUnwrapException();
-                
-                var state = AllocationStateClient.FindSingleOrDefault(automationEventLog.SubOrderId.Value).WaitAndUnwrapException();
+                await AllocationStateClient.AuthorizeClient(tenantId);
+
+                var state = await AllocationStateClient.FindSingleOrDefault(automationEventLog.SubOrderId.Value);
                 if (state != null && state.ArrivalStatus == ArrivalStatus.NotArrived || state.ArrivalStatus == ArrivalStatus.DelayedArrival)
                 {
-                    AllocationStateClient.AuthorizeClient(tenantId).WaitAndUnwrapException();
-                    AllocationStateClient.AddArrivalState(new AddAllocationStateDto
+                    await AllocationStateClient.AuthorizeClient(tenantId);
+                    await AllocationStateClient.AddArrivalState(new AddAllocationStateDto
                     {
                         SubOrderId = automationEventLog.SubOrderId.Value,
                         Status = AllocationStatus.Arrived,
                         Text = $"(BOM) Automatisk sat til ankommet"
                     });
 
-                    GroupedBroadcasterClient.TryShowToast(new ToastDto
+                    await GroupedBroadcasterClient.TryShowToast(new ToastDto
                     {
                         DurationSeconds = automationSettingsDto.Gates[0].NotifyOnErrorSeconds,
                         Text = $"{(automationEventLog.CustomerName ?? "")}, booking {automationEventLog.FriendlyOrderId.Value.DefaultIdPadding()}, er markeret som ankommet",
                         Style = "success"
-                    }, tenantId).WaitAndUnwrapException();
+                    }, tenantId);
 
                 }
             }
         }
 
-        public void GateOutEventLogged(AutomationEventLogItemDto automationEventLog) { }
+        public async Task GateOutEventLogged(AutomationEventLogItemDto automationEventLog) { }
     }
 }

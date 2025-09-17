@@ -9,9 +9,8 @@ using NxB.BookingApi.Models;
 using NxB.BookingApi.Models.Exceptions;
 using NxB.Domain.Common.Interfaces;
 using NxB.BookingApi.Exceptions;
-using NxB.BookingApi.Models;
-using NxB.Remoting.Interfaces.PricingApi;
 using NxB.BookingApi.Extensions;
+using NxB.Allocating.Shared.Infrastructure;
 
 namespace NxB.BookingApi.Infrastructure
 {

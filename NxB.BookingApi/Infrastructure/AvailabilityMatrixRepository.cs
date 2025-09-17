@@ -9,6 +9,7 @@ using Itenso.TimePeriod;
 using Microsoft.EntityFrameworkCore;
 using Munk.AspNetCore;
 using Munk.Utils.Object;
+using NxB.Allocating.Shared.Infrastructure;
 using NxB.BookingApi.Models;
 using NxB.Domain.Common.Interfaces;
 

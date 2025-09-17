@@ -14,7 +14,6 @@ using NxB.Dto.OrderingApi;
 using NxB.Dto.TallyWebIntegrationApi;
 using NxB.BookingApi.Infrastructure;
 using NxB.BookingApi.Models;
-using NxB.Remoting.Interfaces.TallyWebIntegrationApi;
 
 namespace NxB.BookingApi.Controllers.Ordering
 {

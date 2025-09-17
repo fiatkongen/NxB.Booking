@@ -18,7 +18,6 @@ using NxB.Dto.TallyWebIntegrationApi;
 using NxB.BookingApi.Exceptions;
 using NxB.BookingApi.Infrastructure;
 using NxB.BookingApi.Models;
-using NxB.Remoting.Interfaces.TallyWebIntegrationApi;
 using NxB.Settings.Shared.Infrastructure;
 
 

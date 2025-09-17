@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NxB.Domain.Common.Enums;
 using NxB.Dto.OrderingApi;
-using NxB.MemCacheActor.Interfaces;
+
 
 namespace NxB.BookingApi.Infrastructure
 {
-    public class OrderModifiedHandler : IOrderingActorEvents
+    public class OrderModifiedHandler
     {
         private readonly IServiceProvider _serviceProvider;
 

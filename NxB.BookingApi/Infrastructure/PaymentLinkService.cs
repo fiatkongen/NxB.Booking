@@ -20,7 +20,7 @@ using QuickPay.SDK.Clients;
 using QuickPay.SDK.Models.Callbacks;
 using QuickPay.SDK.Models.Payments;
 using Payment = QuickPay.SDK.Models.Payments.Payment;
-using PaymentLink = NxB.AccountingApi.Model.PaymentLink;
+using PaymentLink = NxB.BookingApi.Models.PaymentLink;
 
 namespace NxB.BookingApi.Infrastructure
 {

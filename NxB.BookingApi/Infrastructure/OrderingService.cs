@@ -8,7 +8,6 @@ using NxB.Domain.Common.Model;
 using NxB.Dto.OrderingApi;
 using NxB.Dto.TenantApi;
 using NxB.BookingApi.Models;
-using NxB.Remoting.Interfaces.OrderingApi;
 
 namespace NxB.BookingApi.Infrastructure
 {

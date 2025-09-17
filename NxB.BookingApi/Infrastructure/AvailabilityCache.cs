@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using Itenso.TimePeriod;
 using Microsoft.EntityFrameworkCore;
+using NxB.Allocating.Shared.Infrastructure;
 using NxB.BookingApi.Models;
 using NxB.BookingApi.Models.Exceptions;
 
