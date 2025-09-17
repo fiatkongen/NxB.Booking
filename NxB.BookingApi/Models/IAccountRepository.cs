@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NxB.Domain.Common.Interfaces;
 
 namespace NxB.BookingApi.Models
 {
-    public interface IAccountRepository
+    public interface IAccountRepository : ICloneWithCustomClaimsProvider<IAccountRepository>
     {
         void Add(Account account);
         void MarkAsDeleted(Guid id);

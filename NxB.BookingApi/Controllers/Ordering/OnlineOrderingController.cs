@@ -67,6 +67,7 @@ namespace NxB.BookingApi.Controllers.Ordering
         private readonly IDocumentClient _documentClient;
         private readonly ICustomerRepository _customerRepository;
         private readonly IPaymentCompletionRepository _paymentCompletionRepository;
+        private readonly IVoucherClient _voucherClient;
 
         private readonly List<Guid> _notSpecifiedResourceIds = new();
 
@@ -77,7 +78,7 @@ namespace NxB.BookingApi.Controllers.Ordering
             ITenantClient tenantClient, IAvailabilityClient availabilityClient, ICustomerClient customerClient,
             IRentalCategoryClientCached rentalCategoryClient, IRentalUnitClientCached rentalUnitClient, IJobDocumentClient jobDocumentClient, IMessageClient messageClient, ISettingsRepository settingsRepository,
             IAccessClient accessClient, IAccessGroupClient accessGroupClient, IReportingClient reportingClient, IMemCacheActor memCacheActor,
-            IApplicationLogClient applicationLogClient, ILicensePlateAutomationClient licensePlateAutomationClient, IDocumentClient documentClient, ICustomerRepository customerRepository, IPaymentCompletionRepository paymentCompletionRepository)
+            IApplicationLogClient applicationLogClient, ILicensePlateAutomationClient licensePlateAutomationClient, IDocumentClient documentClient, ICustomerRepository customerRepository, IPaymentCompletionRepository paymentCompletionRepository, IVoucherClient voucherClient)
         {
             _orderFactory = orderFactory;
             _orderRepository = orderRepository;
@@ -105,6 +106,7 @@ namespace NxB.BookingApi.Controllers.Ordering
             _documentClient = documentClient;
             _customerRepository = customerRepository;
             _paymentCompletionRepository = paymentCompletionRepository;
+            _voucherClient = voucherClient;
         }
 
         [HttpGet]
@@ -364,7 +366,7 @@ namespace NxB.BookingApi.Controllers.Ordering
                         CustomerId = (int)customer.FriendlyId,
                         Start = start,
                         End = end,
-                        CustomerName = customer.DisplayString,
+                        CustomerName = customer.DisplayString(),
                         FriendlyOrderId = (int)order.FriendlyId,
                         OrderId = order.Id,
                         Id = subOrder.Id.ToString(),
@@ -801,8 +803,6 @@ namespace NxB.BookingApi.Controllers.Ordering
 
             if ((cartDto.ExternalPaymentType == "QuickPay" || cartDto.ExternalPaymentType == "Online" || cartDto.CreatedByExternalId == "ACSI Camping.Info Booking" || cartDto.CreatedByExternalId == "ACSI / CampingCard" || cartDto.CreatedByExternalId == "PiNCAMP (ADAC, ANWB, TCS)") && cartDto.ExternalPaymentAmount is > 0)
             {
-                var voucherClient = new VoucherClient(null);
-                await voucherClient.AuthorizeClient(tenantId);
 
                 PaymentDto addedPayment = null;
                 if (document.DocumentTemplateType == DocumentTemplateType.Voucher && messageCreated.FriendlyVoucherId != null)
@@ -816,7 +816,7 @@ namespace NxB.BookingApi.Controllers.Ordering
                         SpecificFriendlyInvoiceId = messageCreated.FriendlyVoucherId.Value,
                         SpecificInvoiceId = messageCreated.VoucherId.Value
                     };
-                    addedPayment = await voucherClient.CreateSpecificPayment(paymentDto);
+                    addedPayment = await _voucherClient.CreateSpecificPayment(paymentDto);
                 }
                 else
                 {
@@ -827,7 +827,7 @@ namespace NxB.BookingApi.Controllers.Ordering
                         PaymentAmount = cartDto.ExternalPaymentAmount.Value,
                         PaymentType = PaymentType.Online,
                     };
-                    addedPayment = await voucherClient.CreatePayment(paymentDto);
+                    addedPayment = await _voucherClient.CreatePayment(paymentDto);
                 }
             }
 

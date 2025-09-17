@@ -9,6 +9,7 @@ using Munk.AspNetCore;
 using NxB.Allocating.Shared.Infrastructure;
 using NxB.BookingApi.Models;
 using NxB.Domain.Common.Enums;
+using NxB.Domain.Common.Model;
 using NxB.Settings.Shared.Infrastructure;
 
 namespace NxB.BookingApi.Infrastructure
@@ -41,6 +42,26 @@ namespace NxB.BookingApi.Infrastructure
 
         public DbSet<AvailabilityMatrix> AvailabilityMatrices { get; set; }
         public DbSet<Allocation> Allocations { get; set; }
+
+        // Voucher entities
+        public DbSet<Voucher> Vouchers { get; set; }
+        public DbSet<InvoiceLine> InvoiceLines { get; set; }
+
+        // Additional inventory entities
+        public DbSet<RentalUnit> RentalUnits { get; set; }
+        public DbSet<TimeSpanBase> TimeSpans { get; set; }
+
+        // Customer entities
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<CustomerGroup> CustomerGroups { get; set; }
+
+        // Payment entities
+        public DbSet<PaymentCompletion> PaymentCompletions { get; set; }
+        public DbSet<PaymentCompletedLock> PaymentCapturedLocks { get; set; }
+
+
+        public DbSet<Country> Countries { get; set; }
+        
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options, null)
         {
             //fixes error https://docs.microsoft.com/en-us/ef/core/what-is-new/ef-core-3.0/breaking-changes se Cascade deletions now happen immediately by default

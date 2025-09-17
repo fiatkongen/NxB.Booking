@@ -21,6 +21,11 @@ namespace NxB.BookingApi.Infrastructure
             _dbConnectionFactory = dbConnectionFactory;
         }
 
+        public IAccountRepository CloneWithCustomClaimsProvider(IClaimsProvider overrideClaimsProvider)
+        {
+            return new AccountRepository(overrideClaimsProvider, AppDbContext, _dbConnectionFactory );
+        }
+
         public void Add(Account account)
         {
             AppDbContext.Add(account);
@@ -74,9 +79,9 @@ namespace NxB.BookingApi.Infrastructure
         //            INNER JOIN [Order] ON [Order].Id = SubOrder.OrderId AND [Order].TenantId = '{tenantId}'
         //            AND [Order].Id = '{orderId}'
         //            AND OrderLine.Id NOT IN (
-	       //             SELECT InvoiceLine.OrderLineId FROM InvoiceLine 
-	       //             INNER JOIN InvoiceSubOrder ON OrderLine.SubOrderId = InvoiceSubOrder.Id 
-	       //             INNER JOIN Voucher ON Voucher.Id = InvoiceSubOrder.VoucherId AND Voucher.TenantId = '{tenantId}'
+        //             SELECT InvoiceLine.OrderLineId FROM InvoiceLine 
+        //             INNER JOIN InvoiceSubOrder ON OrderLine.SubOrderId = InvoiceSubOrder.Id 
+        //             INNER JOIN Voucher ON Voucher.Id = InvoiceSubOrder.VoucherId AND Voucher.TenantId = '{tenantId}'
         //                AND Voucher.OrderId = '{orderId}'
         //            )";
 

@@ -75,7 +75,7 @@ namespace NxB.BookingApi.Infrastructure
                 var groupedAllocationOrderLines = subOrder.AllocationOrderLines.GroupBy(x => x.ResourceId);
                 foreach (var groupedAllocationOrderLine in groupedAllocationOrderLines)
                 {
-                    AvailablityArray availabilityArray = new AvailablityArray(subOrder.Start, subOrder.End);
+                    AvailabilityArray availabilityArray = new AvailabilityArray(subOrder.Start, subOrder.End);
 
                     var allocationOrderLines = groupedAllocationOrderLine.Where(x => !x.IsEqualized);
                     availabilityArray.AddAllocations(allocationOrderLines.Select(x => x.Allocation).ToCacheAllocations());

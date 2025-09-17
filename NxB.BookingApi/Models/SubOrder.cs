@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Munk.AspNetCore;
 using Munk.Utils.Object;
+using NxB.Allocating.Shared.Infrastructure;
 using NxB.BookingApi.Infrastructure;
 using NxB.BookingApi.Models;
 using NxB.BookingApi.Models.Exceptions;
@@ -211,7 +212,7 @@ namespace NxB.BookingApi.Models
         private DateInterval CalculateDateInterval(List<CacheAllocation> cacheAllocations)
         {
             var widestDateInterval = new DateInterval(cacheAllocations.Min(x => x.Start), cacheAllocations.Max(x => x.End));
-            AvailablityArray availabilityArray = new AvailablityArray(widestDateInterval.Start, widestDateInterval.End);
+            AvailabilityArray availabilityArray = new AvailabilityArray(widestDateInterval.Start, widestDateInterval.End);
             availabilityArray.AddAllocations(cacheAllocations.ToArray());
 
             var availability = availabilityArray.GetAvailabilityArray(widestDateInterval.Start, widestDateInterval.End);
@@ -321,7 +322,7 @@ namespace NxB.BookingApi.Models
 
             foreach (var groupedCacheAllocation in groupedCacheAllocations)
             {
-                AvailablityArray workingAvailabilityArray = new AvailablityArray(widestDateInterval.Start, widestDateInterval.End);
+                AvailabilityArray workingAvailabilityArray = new AvailabilityArray(widestDateInterval.Start, widestDateInterval.End);
                 workingAvailabilityArray.AddAllocations(groupedCacheAllocation.Value.ToArray());
                 var borderOccCount = workingAvailabilityArray.GetAvailability(borderDateInterval.Start, borderDateInterval.End);
 
@@ -356,7 +357,7 @@ namespace NxB.BookingApi.Models
 
             foreach (var groupedCacheAllocation in groupedCacheAllocations)
             {
-                AvailablityArray workingAvailabilityArray = new AvailablityArray(widestDateInterval.Start, widestDateInterval.End);
+                AvailabilityArray workingAvailabilityArray = new AvailabilityArray(widestDateInterval.Start, widestDateInterval.End);
                 workingAvailabilityArray.AddAllocations(groupedCacheAllocation.Value.ToArray());
                 var allocations = workingAvailabilityArray.GenerateAvailabilityCacheAllocations(groupedCacheAllocation.Key.resourceId.ToString(), dateInterval.Start, dateInterval.End);
 
@@ -460,7 +461,7 @@ namespace NxB.BookingApi.Models
 
             var minDate = allocationOrderLines.Min(x => x.Start);
             var maxDate = allocationOrderLines.Max(x => x.End);
-            AvailablityArray workingAvailabilityArray = new AvailablityArray(minDate, maxDate);
+            AvailabilityArray workingAvailabilityArray = new AvailabilityArray(minDate, maxDate);
             workingAvailabilityArray.AddAllocations(allocationOrderLines.Select(x => x.Allocation).ToCacheAllocations());
 
             var allocationOrderLine = allocationOrderLines[0];

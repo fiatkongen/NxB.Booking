@@ -8,7 +8,7 @@ using NxB.BookingApi.Models.Exceptions;
 
 namespace NxB.Allocating.Shared.Infrastructure
 {
-    public class AvailablityArray
+    public class AvailabilityArray
     {
         public List<decimal> Store { get; private set; }
         public DateTime Start { get; private set; }
@@ -16,14 +16,14 @@ namespace NxB.Allocating.Shared.Infrastructure
         public TimeSpan Duration => new TimeInterval(Start, End).Duration;
 
         [JsonConstructor]
-        private AvailablityArray(DateTime start, DateTime end, List<decimal> store)
+        private AvailabilityArray(DateTime start, DateTime end, List<decimal> store)
         {
             Start = start;
             End = end;
             Store = store;
         }
 
-        public AvailablityArray(DateTime start, DateTime end) : this(start, end, new decimal[end.Date.Subtract(start.Date).Days].ToList())
+        public AvailabilityArray(DateTime start, DateTime end) : this(start, end, new decimal[end.Date.Subtract(start.Date).Days].ToList())
         { }
 
         public void AddAllocations(IEnumerable<CacheAllocation> cacheAllocations)

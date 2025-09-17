@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 using Itenso.TimePeriod;
+using NxB.Allocating.Shared.Infrastructure;
 using NxB.BookingApi.Models;
 using NxB.BookingApi.Models.Exceptions;
 
@@ -23,7 +24,7 @@ namespace NxB.BookingApi.Infrastructure
 
         public virtual async Task<bool> IsUnitAvailableForInterval(Guid unitId, DateInterval dateInterval, decimal minimumAvailability, IEnumerable<Allocation> extraAllocations = null)
         {
-            AvailablityArray availabilityArray = new AvailablityArray(dateInterval.Start, dateInterval.End);
+            AvailabilityArray availabilityArray = new AvailabilityArray(dateInterval.Start, dateInterval.End);
 
             if (extraAllocations != null)
             {

@@ -16,7 +16,7 @@ namespace NxB.Allocating.Shared.Infrastructure
 
         public string Id { get; set; }
         public Guid TenantId { get; set; }
-        public Dictionary<string, AvailablityArray> AvailabilityArrays { get; private set; } = new(DICTIONARY_INITIAL_SIZE);
+        public Dictionary<string, AvailabilityArray> AvailabilityArrays { get; private set; } = new(DICTIONARY_INITIAL_SIZE);
         public DateTime Start { get; private set; }
         public DateTime End { get; private set; }
         public string AvailabilityArraysJson { get; set; }
@@ -41,7 +41,7 @@ namespace NxB.Allocating.Shared.Infrastructure
         [JsonConstructor]
         public AvailabilityMatrix(string id, Guid tenantId, DateTime start, DateTime end, string availablityArraysJson) : this(id, tenantId, start, end)
         {
-            AvailablityArraysJson = availablityArraysJson;
+            AvailabilityArraysJson = availabilityArraysJson;
             DeserializeFromJson();
         }
 
@@ -197,12 +197,12 @@ namespace NxB.Allocating.Shared.Infrastructure
             if (start >= end) throw new AvailabilityException($@"Availablity request start={start.ToDanishDate()} must be greater than {end.ToDanishDate()}");
         }
 
-        private AvailablityArray GetOrCreateAvailabilityArray(string unitId)
+        private AvailabilityArray GetOrCreateAvailabilityArray(string unitId)
         {
             var exists = AvailabilityArrays.TryGetValue(unitId, out var availabilityArray);
             if (!exists)
             {
-                availabilityArray = new AvailablityArray(Start, End);
+                availabilityArray = new AvailabilityArray(Start, End);
                 AvailabilityArrays.Add(unitId, availabilityArray);
             }
             return availabilityArray;
@@ -215,7 +215,7 @@ namespace NxB.Allocating.Shared.Infrastructure
 
         private void DeserializeFromJson()
         {
-            this.AvailabilityArrays = JsonConvert.DeserializeObject<Dictionary<string, AvailablityArray>>(this.AvailabilityArraysJson);
+            this.AvailabilityArrays = JsonConvert.DeserializeObject<Dictionary<string, AvailabilityArray>>(this.AvailabilityArraysJson);
         }
 
         public void OnEntitySaved(EntityState entityState)

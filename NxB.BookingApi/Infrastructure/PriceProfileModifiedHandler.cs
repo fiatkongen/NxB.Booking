@@ -37,7 +37,7 @@ namespace NxB.BookingApi.Infrastructure
                 foreach (var priceprofileId in ids)
                 {
                     var priceProfile = await priceProfileClient.FindSingle(priceprofileId);
-                    var rentalCategoryDto = rentalCategoryClient.FindSingleOrDefault(priceProfile.ResourceId).WaitAndUnwrapException();
+                    var rentalCategoryDto = await rentalCategoryClient.FindSingleOrDefault(priceProfile.ResourceId);
                     if (rentalCategoryDto != null)
                     {
                         rentalCategoryIds.Add(rentalCategoryDto.Id);
@@ -48,7 +48,7 @@ namespace NxB.BookingApi.Infrastructure
                 {
                     var ctoutvertPriceAvailabilityClient = _serviceProvider.GetService<ICtoutvertClient>();
                     await ctoutvertPriceAvailabilityClient.AuthorizeClient(tenantId);
-                    ctoutvertPriceAvailabilityClient.PushPriceAvailability(tenantId, rentalCategoryIds.Distinct().ToList(), true).WaitAndUnwrapException();
+                    await ctoutvertPriceAvailabilityClient.PushPriceAvailability(tenantId, rentalCategoryIds.Distinct().ToList(), true);
                 }
             }
         }

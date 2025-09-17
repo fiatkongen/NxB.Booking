@@ -68,13 +68,12 @@ namespace NxB.BookingApi.Controllers.Accounting
         private readonly IEqualizeService _equalizeService;
         private readonly IBillingService _billingService;
         private readonly IGroupedBroadcasterClient _groupedBroadcasterClient;
-        private readonly IOrderRepository _orderRepository;
 
         private DueVoucher _dueVoucher;
         private OrderDto _orderDto;
         private Payment _paymentAdded;
 
-        public PaymentLinkController(AppDbContext appDbContext, IPaymentLinkService paymentLinkService, IMapper mapper, TelemetryClient telemetryClient, ITenantClient tenantClient, IVoucherRepository voucherRepository, IInvoiceService invoiceService, IEqualizeService equalizeService, IOrderingService orderingService, IPaymentCompletionRepository paymentCompletionRepository, IPaymentLinkRepository paymentLinkRepository, IBillingService billingService, IGroupedBroadcasterClient groupedBroadcasterClient, IOrderRepository orderRepository)
+        public PaymentLinkController(AppDbContext appDbContext, IPaymentLinkService paymentLinkService, IMapper mapper, TelemetryClient telemetryClient, ITenantClient tenantClient, IVoucherRepository voucherRepository, IInvoiceService invoiceService, IEqualizeService equalizeService, IOrderingService orderingService, IPaymentCompletionRepository paymentCompletionRepository, IPaymentLinkRepository paymentLinkRepository, IBillingService billingService, IGroupedBroadcasterClient groupedBroadcasterClient)
         {
             _appDbContext = appDbContext;
             _paymentLinkService = paymentLinkService;
@@ -89,7 +88,6 @@ namespace NxB.BookingApi.Controllers.Accounting
             _paymentLinkRepository = paymentLinkRepository;
             _billingService = billingService;
             _groupedBroadcasterClient = groupedBroadcasterClient;
-            _orderRepository = orderRepository;
         }
 
         [HttpPost]
@@ -131,7 +129,7 @@ namespace NxB.BookingApi.Controllers.Accounting
                     PropertyNameCaseInsensitive = true,
                     WriteIndented = true
                 };
-                
+
                 if (requestBody.Contains("\"continue_url\":\"https://booking.dk-camp.dk/"))
                 {
                     return await QuickPayDkCampCallback(requestBody, checkSum);
@@ -241,8 +239,9 @@ namespace NxB.BookingApi.Controllers.Accounting
                     return new OkResult();
                 }
 
-                var orderRepository = _orderRepository.CloneWithCustomClaimsProvider(TemporaryClaimsProvider.CreateAdministrator(tenantId));
-                var order = await orderRepository.FindSingleFromFriendlyId(friendlyOrderId, false);
+                var orderClient = new OrderClient(null);
+                await orderClient.AuthorizeClient(tenantId);
+                OrderDto order = await orderClient.FindOrder(friendlyOrderId);
                 var orderId = order.Id;
 
                 //already processed
@@ -274,8 +273,6 @@ namespace NxB.BookingApi.Controllers.Accounting
                 {
                     return Ok();
                 }
-
-                ;
 
                 if (transactionType == QUICKPAY_TYPE_CAPTURE)
                 {
@@ -333,7 +330,7 @@ namespace NxB.BookingApi.Controllers.Accounting
             return payment;
         }
 
-        
+
         [HttpPost]
         [AllowAnonymous]
         [Microsoft.AspNetCore.Mvc.Route("callback/online")]
@@ -457,10 +454,11 @@ namespace NxB.BookingApi.Controllers.Accounting
                     throw new PaymentCompletionException("QuickPayOnline.callbackFromQuickPayOnline orderId missing");
                 }
 
-                var orderRepository = _orderRepository.CloneWithCustomClaimsProvider(TemporaryClaimsProvider.CreateAdministrator(tenantId));
-                var order = default(Order);
+                var orderClient = new OrderClient(null);
+                await orderClient.AuthorizeClient(tenantId);
+                OrderDto order = null;
 
-                var existsOrder = await orderRepository.Exists(orderId);
+                var existsOrder = await orderClient.ExistsOrder(orderId);
                 if (!existsOrder && transactionType == QUICKPAY_TYPE_REFUND)
                 {
                     //An onlinebooking went wrong and a refund was added, Just return OK
@@ -469,7 +467,7 @@ namespace NxB.BookingApi.Controllers.Accounting
 
                 if (existsOrder)
                 {
-                    order = await orderRepository.FindSingle(orderId, false);
+                    order = await orderClient.FindOrder(orderId);
                 }
                 else
                 {
@@ -756,7 +754,8 @@ namespace NxB.BookingApi.Controllers.Accounting
                 };
                 var callback = JsonSerializer.Deserialize<Callback>(requestBody, options);
 
-                var tenantId = await _orderRepository.FindTenantIdFromExternalOrderId(externalOrderId);
+                var orderClient = new OrderClient(null);
+                var tenantId = await orderClient.FindTenantIdFromExternalOrderId(externalOrderId);
                 if (tenantId == null)
                 {
                     throw new PaymentCompletionException("QuickPayDkCampCallback.callbackFromQuickPayLegacy tenantId missing");
@@ -776,7 +775,7 @@ namespace NxB.BookingApi.Controllers.Accounting
                 var originalAmount = decimal.Parse(callback.Balance.ToString(), CultureInfo.InvariantCulture) * 0.01m;
                 dynamic link = json.link;
                 bool isFeeAdded = link.auto_fee;
-                
+
                 var isAutoCaptured = true;
 
                 var temporaryClaimsProvider = TemporaryClaimsProvider.CreateOnline(tenantId.Value);
