@@ -47,6 +47,7 @@ namespace NxB.BookingApi.Infrastructure
             }).ConfigureAwait(false);
         }
 
+        [Obsolete]
         public static void FireAndForgetLogToTelemetry(this Task task, string instrumentationKey)
         {
             var telemetryClient = new TelemetryClient(new TelemetryConfiguration(instrumentationKey));

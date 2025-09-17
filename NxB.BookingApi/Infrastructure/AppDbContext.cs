@@ -62,6 +62,16 @@ namespace NxB.BookingApi.Infrastructure
 
         public DbSet<Country> Countries { get; set; }
 
+        // Tenant entities (from TenantApi)
+        public DbSet<Tenant> Tenants { get; set; }
+        public DbSet<TextSection> TextSections { get; set; }
+        public DbSet<TextSectionUser> TextSectionUsers { get; set; }
+        public DbSet<BillableItem> BillableItems { get; set; }
+        public DbSet<Kiosk> Kiosks { get; set; }
+        public DbSet<FeatureModule> FeatureModules { get; set; }
+        public DbSet<FeatureModuleTenantEntry> FeatureModuleTenantEntries { get; set; }
+        public DbSet<ExternalPaymentTransaction> ExternalPaymentTransactions { get; set; }
+
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options, null)
         {
             //fixes error https://docs.microsoft.com/en-us/ef/core/what-is-new/ef-core-3.0/breaking-changes se Cascade deletions now happen immediately by default
@@ -218,6 +228,58 @@ namespace NxB.BookingApi.Infrastructure
             modelBuilder.Entity<Country>().Ignore(x => x.TextTranslator);
             modelBuilder.Entity<Country>().Ignore(x => x.TextTranslations);
 
+            // Tenant entity configurations (from TenantApi)
+            modelBuilder.Entity<Tenant>().ToTable("Tenant");
+            modelBuilder.Entity<Tenant>().HasAlternateKey(c => c.ClientId);
+            modelBuilder.Entity<Tenant>().Property(x => x.Id).ValueGeneratedNever();
+            modelBuilder.Entity<Tenant>().Property(x => x.ClientId).IsRequired().HasMaxLength(50);
+            modelBuilder.Entity<Tenant>().Property(x => x.CompanyName).HasMaxLength(100);
+            modelBuilder.Entity<Tenant>().Property(x => x.ContactName).HasMaxLength(100);
+            modelBuilder.Entity<Tenant>().Property(x => x.Address).HasMaxLength(500);
+            modelBuilder.Entity<Tenant>().Property(x => x.Email).HasMaxLength(200);
+            modelBuilder.Entity<Tenant>().Property(x => x.Phone).HasMaxLength(50);
+            modelBuilder.Entity<Tenant>().Property(x => x.LegacyId).HasMaxLength(50);
+            modelBuilder.Entity<Tenant>().Property(x => x.Cvr).HasMaxLength(20);
+
+            modelBuilder.Entity<TextSection>().ToTable("TextSection");
+            modelBuilder.Entity<TextSection>().Property(x => x.Id).ValueGeneratedNever();
+            modelBuilder.Entity<TextSection>().Property(x => x.Summary).HasMaxLength(1000);
+            modelBuilder.Entity<TextSection>().Property(x => x.Keywords).HasMaxLength(1000);
+            modelBuilder.Entity<TextSection>().Property(x => x.Text).HasColumnType("ntext");
+            modelBuilder.Entity<TextSection>().Property(x => x.Title).HasMaxLength(500);
+            modelBuilder.Entity<TextSection>().Property(x => x.VideoUrl).HasMaxLength(250);
+            modelBuilder.Entity<TextSection>().Ignore(x => x.IsRead);
+
+            modelBuilder.Entity<TextSectionUser>().ToTable("TextSectionUser");
+            modelBuilder.Entity<TextSectionUser>().HasKey(x => new { x.TextSectionId, x.UserId });
+
+            modelBuilder.Entity<BillableItem>().ToTable("BillableItem");
+            modelBuilder.Entity<BillableItem>().Property(x => x.Id).ValueGeneratedNever();
+            modelBuilder.Entity<BillableItem>().Property(x => x.Text).HasMaxLength(200);
+
+            modelBuilder.Entity<Kiosk>().ToTable("Kiosk");
+            modelBuilder.Entity<Kiosk>().Property(x => x.Id).ValueGeneratedNever();
+            modelBuilder.Entity<Kiosk>().HasIndex(x => new { x.HardwareSerialNo }).IsUnique();
+            modelBuilder.Entity<Kiosk>().Property(x => x.Name).HasMaxLength(100);
+            modelBuilder.Entity<Kiosk>().Property(x => x.HardwareSerialNo).HasMaxLength(100);
+
+            modelBuilder.Entity<FeatureModule>().ToTable("FeatureModule");
+            modelBuilder.Entity<FeatureModule>().Property(x => x.Id).ValueGeneratedNever();
+            modelBuilder.Entity<FeatureModule>().Property(x => x.Name).HasMaxLength(200);
+
+            modelBuilder.Entity<FeatureModuleTenantEntry>().ToTable("FeatureModuleTenantEntry");
+            modelBuilder.Entity<FeatureModuleTenantEntry>().Property(x => x.Id).ValueGeneratedNever();
+            modelBuilder.Entity<FeatureModuleTenantEntry>().HasIndex(x => x.FeatureModuleId);
+            modelBuilder.Entity<FeatureModuleTenantEntry>().HasIndex(x => x.CreateDate);
+            modelBuilder.Entity<FeatureModuleTenantEntry>().HasIndex(x => x.TenantId);
+            modelBuilder.Entity<FeatureModuleTenantEntry>().HasIndex(x => x.StartDate);
+            modelBuilder.Entity<FeatureModuleTenantEntry>().HasIndex(x => x.EndDate);
+
+            modelBuilder.Entity<ExternalPaymentTransaction>().ToTable("ExternalPaymentTransaction");
+            modelBuilder.Entity<ExternalPaymentTransaction>().Property(x => x.Id).ValueGeneratedNever();
+            modelBuilder.Entity<ExternalPaymentTransaction>().Property(x => x.Status).HasMaxLength(50);
+            modelBuilder.Entity<ExternalPaymentTransaction>().Property(x => x.TransactionId).HasMaxLength(50);
+            modelBuilder.Entity<ExternalPaymentTransaction>().Property(x => x.TransactionType).HasMaxLength(50);
 
             ModifyDefaultCascadeBehavior(modelBuilder, DeleteBehavior.Restrict);
         }

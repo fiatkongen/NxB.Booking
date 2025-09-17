@@ -29,6 +29,7 @@ ConfigureOrderingServices(builder.Services, builder.Configuration);
 ConfigureAccountingServices(builder.Services, builder.Configuration);
 ConfigureInventoryServices(builder.Services, builder.Configuration);
 ConfigureLoginServices(builder.Services, builder.Configuration);
+ConfigureTenantServices(builder.Services, builder.Configuration);
 
 var app = builder.Build();
 
@@ -70,4 +71,31 @@ static void ConfigureLoginServices(IServiceCollection services, IConfiguration c
 {
     // Services from LoginApi Startup.cs
     services.AddAutoMapper(typeof(Program));
+}
+
+static void ConfigureTenantServices(IServiceCollection services, IConfiguration configuration)
+{
+    // Services from TenantApi Startup.cs (Service Fabric dependencies removed)
+
+    // Register repositories
+    services.AddScoped<ITenantRepository, TenantRepository>();
+    services.AddScoped<ITextSectionRepository, TextSectionRepository>();
+    services.AddScoped<ITextSectionUserRepository, TextSectionUserRepository>();
+    services.AddScoped<IBillableItemsRepository, BillableItemsRepository>();
+    services.AddScoped<IKioskRepository, KioskRepository>();
+    services.AddScoped<IFeatureModuleRepository, FeatureModuleRepository>();
+    services.AddScoped<IExternalPaymentTransactionRepository, ExternalPaymentTransactionRepository>();
+
+    // Register services
+    services.AddScoped<IFeatureModuleService, FeatureModuleService>();
+    services.AddScoped<BillingService>();
+    // services.AddScoped<FileWritingService>(); // TODO: Review if this service is needed
+    services.AddScoped<IVerifoneGateway, VerifoneGateway>();
+
+    // Register factories
+    services.AddScoped<TenantFactory>();
+    services.AddScoped<BillableItemFactory>();
+    services.AddScoped<KioskFactory>();
+    services.AddScoped<FeatureModuleFactory>();
+    services.AddScoped<ExternalPaymentTransactionFactory>();
 }
