@@ -61,7 +61,7 @@ namespace NxB.BookingApi.Infrastructure
 
 
         public DbSet<Country> Countries { get; set; }
-        
+
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options, null)
         {
             //fixes error https://docs.microsoft.com/en-us/ef/core/what-is-new/ef-core-3.0/breaking-changes se Cascade deletions now happen immediately by default
@@ -212,6 +212,11 @@ namespace NxB.BookingApi.Infrastructure
             modelBuilder.Entity<TimeSpanBase>().Property(x => x.Sort).UseIdentityColumn().Metadata.SetAfterSaveBehavior(Microsoft.EntityFrameworkCore.Metadata.PropertySaveBehavior.Ignore);
 
 
+            //should be moved to a shared infrastructure service
+            modelBuilder.Entity<Country>().ToTable("Country");
+            modelBuilder.Entity<Country>().Property(x => x.Id).ValueGeneratedNever();
+            modelBuilder.Entity<Country>().Ignore(x => x.TextTranslator);
+            modelBuilder.Entity<Country>().Ignore(x => x.TextTranslations);
 
 
             ModifyDefaultCascadeBehavior(modelBuilder, DeleteBehavior.Restrict);
