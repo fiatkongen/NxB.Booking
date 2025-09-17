@@ -12,7 +12,6 @@ using NxB.Domain.Common.Enums;
 using NxB.Domain.Common.Interfaces;
 using NxB.Dto.Clients;
 using NxB.Dto.OrderingApi;
-using NxB.MemCacheActor.Interfaces;
 using NxB.BookingApi.Infrastructure;
 using NxB.BookingApi.Models;
 using NxB.Settings.Shared.Infrastructure;

@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using NxB.BookingApi.Models;
 using NxB.Dto.AccountingApi;
+using NxB.Dto.Clients;
 using NxB.Settings.Shared.Infrastructure;
 
 namespace NxB.BookingApi.Infrastructure

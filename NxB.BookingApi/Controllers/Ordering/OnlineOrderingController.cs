@@ -27,7 +27,6 @@ using NxB.Dto.DocumentApi;
 using NxB.Dto.JobApi;
 using NxB.Dto.LogApi;
 using NxB.Dto.OrderingApi;
-using NxB.MemCacheActor.Interfaces;
 using NxB.BookingApi.Exceptions;
 using NxB.BookingApi.Infrastructure;
 using NxB.BookingApi.Models;

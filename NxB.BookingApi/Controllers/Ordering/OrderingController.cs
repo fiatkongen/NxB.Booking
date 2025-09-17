@@ -22,10 +22,8 @@ using NxB.Domain.Common.Model;
 using NxB.Dto.Clients;
 using NxB.Dto.DocumentApi;
 using NxB.Dto.OrderingApi;
-using NxB.MemCacheActor.Interfaces;
 using NxB.BookingApi.Exceptions;
 using NxB.BookingApi.Infrastructure;
-using NxB.BookingApi.Models;
 
 namespace NxB.BookingApi.Controllers.Ordering
 {

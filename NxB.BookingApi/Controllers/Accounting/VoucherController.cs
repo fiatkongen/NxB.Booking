@@ -27,7 +27,6 @@ using NxB.Dto.AccountingApi;
 using NxB.Dto.Clients;
 using NxB.Dto.Exceptions;
 using NxB.Dto.OrderingApi;
-using NxB.MemCacheActor.Interfaces;
 using NxB.Remoting.Interfaces.SignalrApi;
 
 namespace NxB.BookingApi.Controllers.Accounting

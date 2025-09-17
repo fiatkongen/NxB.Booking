@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using NxB.Allocating.Shared.Infrastructure;
 using NxB.BookingApi.Models;
 using NxB.BookingApi.Models.Exceptions;
 using NxB.Domain.Common.Interfaces;

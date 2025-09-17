@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NxB.BookingApi.Models;
 using NxB.Domain.Common.Interfaces;
-using NxB.MemCacheActor.Interfaces;
 
 namespace NxB.BookingApi.Infrastructure
 {

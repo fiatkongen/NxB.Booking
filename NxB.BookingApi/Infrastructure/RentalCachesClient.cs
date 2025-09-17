@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using NxB.Allocating.Shared.Infrastructure;
+using NxB.BookingApi.Models;
 using ServiceStack;
 
 namespace NxB.BookingApi.Infrastructure

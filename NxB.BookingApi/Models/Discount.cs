@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Munk.AspNetCore;
 using Newtonsoft.Json;
-using NxB.Allocating.Shared.Infrastructure;
+using NxB.BookingApi.Infrastructure;
 using NxB.Domain.Common.Interfaces;
 
 namespace NxB.BookingApi.Models

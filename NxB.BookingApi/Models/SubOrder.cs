@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Munk.AspNetCore;
 using Munk.Utils.Object;
-using NxB.Allocating.Shared.Infrastructure;
+using NxB.BookingApi.Infrastructure;
 using NxB.BookingApi.Models;
 using NxB.BookingApi.Models.Exceptions;
 using NxB.Domain.Common.Enums;
