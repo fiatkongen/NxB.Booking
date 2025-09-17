@@ -67,6 +67,8 @@ namespace NxB.BookingApi.Controllers.Ordering
         private readonly IApplicationLogClient _applicationLogClient;
         private readonly ILicensePlateAutomationClient _licensePlateAutomationClient;
         private readonly IDocumentClient _documentClient;
+        private readonly ICustomerRepository _customerRepository;
+        private readonly IPaymentCompletionRepository _paymentCompletionRepository;
 
         private readonly List<Guid> _notSpecifiedResourceIds = new();
 
@@ -77,7 +79,7 @@ namespace NxB.BookingApi.Controllers.Ordering
             ITenantClient tenantClient, IAvailabilityClient availabilityClient, ICustomerClient customerClient,
             IRentalCategoryClientCached rentalCategoryClient, IRentalUnitClientCached rentalUnitClient, IJobDocumentClient jobDocumentClient, IMessageClient messageClient, ISettingsRepository settingsRepository,
             IAccessClient accessClient, IAccessGroupClient accessGroupClient, IReportingClient reportingClient, IAllocationStateClient allocationStateClient, IMemCacheActor memCacheActor,
-            IApplicationLogClient applicationLogClient, ILicensePlateAutomationClient licensePlateAutomationClient, IDocumentClient documentClient)
+            IApplicationLogClient applicationLogClient, ILicensePlateAutomationClient licensePlateAutomationClient, IDocumentClient documentClient, ICustomerRepository customerRepository, IPaymentCompletionRepository paymentCompletionRepository)
         {
             _orderFactory = orderFactory;
             _orderRepository = orderRepository;
@@ -104,6 +106,8 @@ namespace NxB.BookingApi.Controllers.Ordering
             _applicationLogClient = applicationLogClient;
             _licensePlateAutomationClient = licensePlateAutomationClient;
             _documentClient = documentClient;
+            _customerRepository = customerRepository;
+            _paymentCompletionRepository = paymentCompletionRepository;
         }
 
         [HttpGet]
@@ -340,9 +344,6 @@ namespace NxB.BookingApi.Controllers.Ordering
             try
             {
 
-                var customerClient = new CustomerClient(null);
-                await customerClient.AuthorizeClient(tenantId);
-
                 var subOrderAllocation = subOrder.Allocations[0];
 
                 var rentalCategoryClient = new RentalCategoryClient(null);
@@ -354,7 +355,7 @@ namespace NxB.BookingApi.Controllers.Ordering
                 var rentalUnit = await rentalUnitClient.FindSingleOrDefault(subOrderAllocation.RentalUnitId);
                 var rentalCategory = await rentalCategoryClient.FindSingleOrDefault(rentalUnit.RentalCategoryId);
 
-                var customer = await customerClient.FindCustomerFromAccountId(order.AccountId);
+                var customer = _customerRepository.FindSingleFromAccountId(order.AccountId);
                 if (customer != null)
                 {
 
@@ -684,9 +685,6 @@ namespace NxB.BookingApi.Controllers.Ordering
                     }
                 }
                 //var quickPayClient = CreateQuickPayClient(tenantId);
-
-                var paymentCompletionClient = new PaymentCompletionClient(null);
-                await paymentCompletionClient.AuthorizeClient(tenantId);
 
                 //var paymentCompletion = new PaymentCompletionDto(
                 //    paymentCompletionId,

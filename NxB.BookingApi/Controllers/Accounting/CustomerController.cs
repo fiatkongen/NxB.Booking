@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using NxB.BookingApi.Infrastructure;
 using NxB.BookingApi.Models;
 using NxB.Domain.Common.Dto;
+using NxB.Domain.Common.Model;
 using NxB.Dto.AccountingApi;
 using System;
 using System.Collections.Generic;
@@ -28,13 +29,15 @@ namespace NxB.BookingApi.Controllers.Accounting
         private readonly ICustomerTestDataImporter _customerTestDataImporter;
         private readonly CustomerFactory _customerFactory;
         private readonly AppDbContext _appDbContext;
+        private readonly IOrderRepository _orderRepository;
 
-        public CustomerController(ICustomerRepository customerRepository, CustomerFactory customerFactory, AppDbContext appDbContext, ICustomerTestDataImporter customerTestDataImporter)
+        public CustomerController(ICustomerRepository customerRepository, CustomerFactory customerFactory, AppDbContext appDbContext, ICustomerTestDataImporter customerTestDataImporter, IOrderRepository orderRepository)
         {
             _customerRepository = customerRepository;
             _customerFactory = customerFactory;
             _appDbContext = appDbContext;
             _customerTestDataImporter = customerTestDataImporter;
+            _orderRepository = orderRepository;
         }
 
         [HttpGet]
@@ -71,9 +74,8 @@ namespace NxB.BookingApi.Controllers.Accounting
         [AllowAnonymous]
         public async Task<ObjectResult> FindSingleOnlineCustomerFromFriendlyOrderId(long friendlyOrderId, Guid tenantId)
         {
-            var orderClient = new OrderClient(null);
-            await orderClient.AuthorizeClient(tenantId);
-            var order = await orderClient.FindOrder(friendlyOrderId);
+            var orderRepository = _orderRepository.CloneWithCustomClaimsProvider(TemporaryClaimsProvider.CreateAdministrator(tenantId));
+            var order = await orderRepository.FindSingleFromFriendlyId(friendlyOrderId, false);
             if (order == null) return new ObjectResult(null);
 
             var customer = this._customerRepository.FindSingleFromAccountId(order.AccountId, tenantId);
@@ -107,9 +109,8 @@ namespace NxB.BookingApi.Controllers.Accounting
         [AllowAnonymous]
         public async Task<ObjectResult> FindSingleOnlineCustomerFromOrderId(Guid orderId, Guid tenantId)
         {
-            var orderClient = new OrderClient(null);
-            await orderClient.AuthorizeClient(tenantId);
-            var order = await orderClient.FindOrder(orderId);
+            var orderRepository = _orderRepository.CloneWithCustomClaimsProvider(TemporaryClaimsProvider.CreateAdministrator(tenantId));
+            var order = await orderRepository.FindSingle(orderId, false);
             if (order == null) return new ObjectResult(null);
 
             var customer = this._customerRepository.FindSingleFromAccountId(order.AccountId, tenantId);

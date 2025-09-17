@@ -44,7 +44,7 @@ namespace NxB.BookingApi.Controllers.Accounting
         private readonly VoucherMapper _voucherMapper;
         private readonly IEqualizeService _equalizeService;
         private readonly IDocumentClient _documentClient;
-        private readonly IOrderClient _orderClient;
+        private readonly IOrderRepository _orderRepository;
         private readonly IAccountRepository _accountRepository;
         private readonly VoucherFactory _voucherFactory;
         private readonly IPaymentService _paymentService;
@@ -62,7 +62,7 @@ namespace NxB.BookingApi.Controllers.Accounting
             VoucherMapper voucherMapper,
             IEqualizeService equalizeService,
             IDocumentClient documentClient,
-            IOrderClient orderClient,
+            IOrderRepository orderRepository,
             IAccountRepository accountRepository,
             VoucherFactory voucherFactory,
             IPaymentService paymentService,
@@ -77,7 +77,7 @@ namespace NxB.BookingApi.Controllers.Accounting
             _voucherMapper = voucherMapper;
             _equalizeService = equalizeService;
             _documentClient = documentClient;
-            _orderClient = orderClient;
+            _orderRepository = orderRepository;
             _accountRepository = accountRepository;
             _voucherFactory = voucherFactory;
             _paymentService = paymentService;

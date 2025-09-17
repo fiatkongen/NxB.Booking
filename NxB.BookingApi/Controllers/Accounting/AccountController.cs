@@ -25,9 +25,9 @@ namespace NxB.BookingApi.Controllers.Accounting
         private readonly ICustomerRepository _customerRepository;
         private readonly ITotalsService _totalsService;
         private readonly IVoucherRepository _voucherRepository;
-        private readonly IOrderClient _orderClient;
+        private readonly IOrderRepository _orderRepository;
 
-        public AccountController(IAccountRepository accountRepository, AccountFactory accountFactory, AppDbContext appDbContext, ICustomerRepository customerRepository, ITotalsService totalsService, IVoucherRepository voucherRepository, IOrderClient orderClient )
+        public AccountController(IAccountRepository accountRepository, AccountFactory accountFactory, AppDbContext appDbContext, ICustomerRepository customerRepository, ITotalsService totalsService, IVoucherRepository voucherRepository, IOrderRepository orderRepository )
         {
             _accountRepository = accountRepository;
             _accountFactory = accountFactory;
@@ -35,7 +35,7 @@ namespace NxB.BookingApi.Controllers.Accounting
             _customerRepository = customerRepository;
             _totalsService = totalsService;
             _voucherRepository = voucherRepository;
-            _orderClient = orderClient;
+            _orderRepository = orderRepository;
         }
 
         [HttpPost]

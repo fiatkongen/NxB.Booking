@@ -35,16 +35,18 @@ namespace NxB.BookingApi.Controllers.Accounting
         private readonly AppDbContext _appDbContext;
         private readonly IPaymentLinkHelper _paymentLinkHelper;
         private readonly IPaymentLinkService _paymentLinkService;
+        private readonly IOrderRepository _orderRepository;
 
         public PaymentLinkOnlineController(
             TelemetryClient telemetryClient,
-            ITenantClient tenantClient, AppDbContext appDbContext, IPaymentLinkHelper paymentLinkHelper, IPaymentLinkService paymentLinkService)
+            ITenantClient tenantClient, AppDbContext appDbContext, IPaymentLinkHelper paymentLinkHelper, IPaymentLinkService paymentLinkService, IOrderRepository orderRepository)
         {
             _telemetryClient = telemetryClient;
             _tenantClient = tenantClient;
             _appDbContext = appDbContext;
             _paymentLinkHelper = paymentLinkHelper;
             _paymentLinkService = paymentLinkService;
+            _orderRepository = orderRepository;
         }
 
 
@@ -63,9 +65,8 @@ namespace NxB.BookingApi.Controllers.Accounting
 
             if (long.TryParse(dto.OrderId, out var friendlyOrderId))
             {
-                var orderClient = new OrderClient(null);
-                await orderClient.AuthorizeClient(tenantId);
-                var order = await orderClient.FindOrder(friendlyOrderId);
+                var orderRepository = _orderRepository.CloneWithCustomClaimsProvider(TemporaryClaimsProvider.CreateAdministrator(tenantId));
+                var order = await orderRepository.FindSingleFromFriendlyId(friendlyOrderId, false);
                 orderId = order.Id.ToString();
             }
             else
