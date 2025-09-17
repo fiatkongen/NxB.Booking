@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using Munk.AspNetCore.Sql;
 using Newtonsoft.Json;
-using NxB.Allocating.Shared.Model;
+using NxB.BookingApi.Models;
 using NxB.Domain.Common.Interfaces;
 using ServiceStack;
 

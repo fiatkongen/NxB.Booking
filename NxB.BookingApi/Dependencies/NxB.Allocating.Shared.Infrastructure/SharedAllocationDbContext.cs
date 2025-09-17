@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using NxB.Allocating.Shared.Model;
+using NxB.BookingApi.Models;
 
 namespace NxB.Allocating.Shared.Infrastructure
 {

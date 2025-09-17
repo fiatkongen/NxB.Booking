@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using NxB.Domain.Common.Interfaces;
 
-namespace NxB.Allocating.Shared.Model
+namespace NxB.BookingApi.Models
 {
     public interface IRentalUnitRepository
     {

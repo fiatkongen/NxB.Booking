@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NxB.Allocating.Shared.Model
+namespace NxB.BookingApi.Models
 {
     public class SmallRentalUnitCategory
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Itenso.TimePeriod;
 using NxB.Domain.Common.Enums;
 
-namespace NxB.Allocating.Shared.Model
+namespace NxB.BookingApi.Models
 {
     public class TimeSpanResult
     {

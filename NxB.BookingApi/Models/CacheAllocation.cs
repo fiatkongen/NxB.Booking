@@ -1,7 +1,7 @@
 ﻿using System;
 using Itenso.TimePeriod;
 
-namespace NxB.Allocating.Shared.Model
+namespace NxB.BookingApi.Models
 {
     public class CacheAllocation
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Munk.AspNetCore;
-using NxB.Allocating.Shared.Model;
+using NxB.BookingApi.Models;
 using NxB.Domain.Common.Enums;
 using NxB.Domain.Common.Interfaces;
 using NxB.Domain.Common.Model;

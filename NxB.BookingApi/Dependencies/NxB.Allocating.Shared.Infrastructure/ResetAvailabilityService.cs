@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 using Microsoft.EntityFrameworkCore;
-using NxB.Allocating.Shared.Model;
+using NxB.BookingApi.Models;
 using NxB.Domain.Common.Interfaces;
 
 namespace NxB.Allocating.Shared.Infrastructure

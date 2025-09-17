@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using NxB.Allocating.Shared.Model;
+using NxB.BookingApi.Models;
 
 namespace NxB.Allocating.Shared.Infrastructure
 {

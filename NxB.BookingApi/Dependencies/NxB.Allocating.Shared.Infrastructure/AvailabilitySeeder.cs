@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Munk.Utils.Object;
-using NxB.Allocating.Shared.Model;
+using NxB.BookingApi.Models;
 using NxB.Domain.Common.Interfaces;
 using NxB.Domain.Common.Model;
 

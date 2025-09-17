@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Itenso.TimePeriod;
 using Newtonsoft.Json;
-using NxB.Allocating.Shared.Model;
-using NxB.Allocating.Shared.Model.Exceptions;
+using NxB.BookingApi.Models;
+using NxB.BookingApi.Models.Exceptions;
 
 namespace NxB.Allocating.Shared.Infrastructure
 {

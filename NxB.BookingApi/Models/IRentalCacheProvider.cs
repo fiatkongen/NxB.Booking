@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace NxB.Allocating.Shared.Model
+namespace NxB.BookingApi.Models
 {
     public interface IRentalCacheProvider
     {

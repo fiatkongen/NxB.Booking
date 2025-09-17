@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NxB.Allocating.Shared.Model;
+using NxB.BookingApi.Models;
 using NxB.Domain.Common.Constants;
 using NxB.Domain.Common.Dto;
 using NxB.Dto.AccountingApi;

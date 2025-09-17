@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
-using NxB.Allocating.Shared.Model;
+using NxB.BookingApi.Models;
 using NxB.Dto.AllocationApi;
 
 namespace NxB.Allocating.Shared.Infrastructure

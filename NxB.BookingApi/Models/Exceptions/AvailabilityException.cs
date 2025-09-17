@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NxB.Allocating.Shared.Model.Exceptions
+namespace NxB.BookingApi.Models.Exceptions
 {
     public class AvailabilityException : Exception
     {

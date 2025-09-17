@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Munk.AspNetCore;
 using Munk.AspNetCore.Sql;
-using NxB.Allocating.Shared.Model;
+using NxB.BookingApi.Models;
 using NxB.Domain.Common.Interfaces;
 using NxB.Domain.Common.Model;
 using NxB.BookingApi.Models;

@@ -4,7 +4,7 @@ using System.Linq;
 using Itenso.TimePeriod;
 using NxB.Domain.Common.Interfaces;
 
-namespace NxB.Allocating.Shared.Model
+namespace NxB.BookingApi.Models
 {
     public abstract class TimeChunkDivider : ITimeChunkDivider
     {

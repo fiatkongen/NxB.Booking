@@ -5,7 +5,7 @@ using Munk.Utils.Object;
 using NxB.Domain.Common.Interfaces;
 using NxB.Domain.Common.Model;
 
-namespace NxB.Allocating.Shared.Model
+namespace NxB.BookingApi.Models
 {
     [Serializable]
     public class Allocation : ITenantEntity

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.ApplicationInsights;
-using NxB.Allocating.Shared.Model;
+using NxB.BookingApi.Models;
 
 namespace NxB.Allocating.Shared.Infrastructure
 {

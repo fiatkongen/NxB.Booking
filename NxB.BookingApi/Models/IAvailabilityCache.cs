@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using Microsoft.EntityFrameworkCore;
 
-namespace NxB.Allocating.Shared.Model
+namespace NxB.BookingApi.Models
 {
     public interface IAvailabilityCache : IAvailabilityCacheReader, IAvailabilityCacheWriter
     {}

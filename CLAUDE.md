@@ -23,7 +23,6 @@ The project includes local dependencies in the `Dependencies/` folder:
 - **NxB.Domain.Common** - Common domain models and logic
 - **NxB.Dto** - Data transfer objects
 - **NxB.Allocating.Shared.Infrastructure** - Allocation system infrastructure
-- **NxB.Allocating.Shared.Model** - Allocation domain models
 - **NxB.Settings.Shared.Infrastructure** - Settings management
 
 ### Key Technologies

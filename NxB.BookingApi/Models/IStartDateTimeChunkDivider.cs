@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NxB.Allocating.Shared.Model
+namespace NxB.BookingApi.Models
 {
     public interface IStartDateTimeChunkDivider
     {

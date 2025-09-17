@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using System.Transactions;
 using Itenso.TimePeriod;
 using Microsoft.EntityFrameworkCore;
-using NxB.Allocating.Shared.Model;
-using NxB.Allocating.Shared.Model.Exceptions;
+using NxB.BookingApi.Models;
+using NxB.BookingApi.Models.Exceptions;
 
 namespace NxB.Allocating.Shared.Infrastructure
 {

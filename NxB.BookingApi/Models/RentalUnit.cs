@@ -3,7 +3,7 @@ using NxB.Domain.Common.Dto;
 using NxB.Domain.Common.Interfaces;
 using NxB.Domain.Common.Model;
 
-namespace NxB.Allocating.Shared.Model
+namespace NxB.BookingApi.Models
 {
     [Serializable]
     public class RentalUnit : BaseTranslatedEntity, ITenantEntity

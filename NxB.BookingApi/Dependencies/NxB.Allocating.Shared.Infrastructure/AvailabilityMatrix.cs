@@ -4,8 +4,8 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Munk.AspNetCore;
 using Newtonsoft.Json;
-using NxB.Allocating.Shared.Model;
-using NxB.Allocating.Shared.Model.Exceptions;
+using NxB.BookingApi.Models;
+using NxB.BookingApi.Models.Exceptions;
 using NxB.Domain.Common.Interfaces;
 
 namespace NxB.Allocating.Shared.Infrastructure

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Itenso.TimePeriod;
 using Munk.Utils.Object;
-using NxB.Allocating.Shared.Model;
+using NxB.BookingApi.Models;
 
 namespace NxB.Allocating.Shared.Infrastructure
 {

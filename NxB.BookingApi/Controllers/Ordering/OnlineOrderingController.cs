@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Abstractions;
 using Munk.Utils.Object;
 using Newtonsoft.Json;
-using NxB.Allocating.Shared.Model.Exceptions;
+using NxB.BookingApi.Models.Exceptions;
 using NxB.Domain.Common.Constants;
 using NxB.Domain.Common.Enums;
 using NxB.Domain.Common.Interfaces;

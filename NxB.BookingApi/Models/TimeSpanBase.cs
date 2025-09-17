@@ -4,7 +4,7 @@ using Itenso.TimePeriod;
 using NxB.Domain.Common.Enums;
 using NxB.Domain.Common.Interfaces;
 
-namespace NxB.Allocating.Shared.Model
+namespace NxB.BookingApi.Models
 {
     [Serializable]
     public abstract class TimeSpanBase : ITenantEntity, IDateInterval
