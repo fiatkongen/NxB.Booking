@@ -14,7 +14,6 @@ using Munk.AspNetCore.Sql;
 using NxB.BookingApi.Models;
 using NxB.Domain.Common.Interfaces;
 using NxB.Domain.Common.Model;
-using NxB.BookingApi.Models;
 using NxB.BookingApi.Infrastructure;
 using ServiceStack;
 using Z.EntityFramework.Plus;
