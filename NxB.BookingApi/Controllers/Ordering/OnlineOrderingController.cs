@@ -62,7 +62,6 @@ namespace NxB.BookingApi.Controllers.Ordering
         private readonly IAccessClient _accessClient;
         private readonly IAccessGroupClient _accessGroupClient;
         private readonly IReportingClient _reportingClient;
-        private readonly IAllocationStateClient _allocationStateClient;
         private readonly IMemCacheActor _memCacheActor;
         private readonly IApplicationLogClient _applicationLogClient;
         private readonly ILicensePlateAutomationClient _licensePlateAutomationClient;
@@ -78,7 +77,7 @@ namespace NxB.BookingApi.Controllers.Ordering
             ICounterPushUpdateService counterPushUpdateService, IGroupedBroadcasterClient groupedBroadcasterClient,
             ITenantClient tenantClient, IAvailabilityClient availabilityClient, ICustomerClient customerClient,
             IRentalCategoryClientCached rentalCategoryClient, IRentalUnitClientCached rentalUnitClient, IJobDocumentClient jobDocumentClient, IMessageClient messageClient, ISettingsRepository settingsRepository,
-            IAccessClient accessClient, IAccessGroupClient accessGroupClient, IReportingClient reportingClient, IAllocationStateClient allocationStateClient, IMemCacheActor memCacheActor,
+            IAccessClient accessClient, IAccessGroupClient accessGroupClient, IReportingClient reportingClient, IMemCacheActor memCacheActor,
             IApplicationLogClient applicationLogClient, ILicensePlateAutomationClient licensePlateAutomationClient, IDocumentClient documentClient, ICustomerRepository customerRepository, IPaymentCompletionRepository paymentCompletionRepository)
         {
             _orderFactory = orderFactory;
@@ -101,7 +100,6 @@ namespace NxB.BookingApi.Controllers.Ordering
             _accessClient = accessClient;
             _accessGroupClient = accessGroupClient;
             _reportingClient = reportingClient;
-            _allocationStateClient = allocationStateClient;
             _memCacheActor = memCacheActor;
             _applicationLogClient = applicationLogClient;
             _licensePlateAutomationClient = licensePlateAutomationClient;
@@ -921,16 +919,20 @@ namespace NxB.BookingApi.Controllers.Ordering
         {
             try
             {
-                await _allocationStateClient.AuthorizeClient(tenantId);
+                var allocationStateRepository = _allocationStateRepository.CloneWithCustomClaimsProvider(TemporaryClaimsProvider.CreateAdministrator(tenantId));
                 foreach (var subOrder in order.SubOrders.Where(su => su.AllocationOrderLines.Any(x => x.Start == DateTime.Now.Date)))
                 {
-                    await _allocationStateClient.AddArrivalState(new AddAllocationStateDto
+                    var allocationState = allocationStateRepository.FindSingleOrDefault(subOrder.Id);
+                    if (allocationState == null)
                     {
-                        CustomTime = DateTime.Now.ToEuTimeZone(),
-                        Status = AllocationStatus.Arrived,
-                        SubOrderId = subOrder.Id
-                    });
+                        allocationState = new AllocationState(subOrder.Id, AppConstants.ADMINISTRATOR_ID, tenantId);
+                        allocationStateRepository.Add(allocationState);
+                    }
+                    
+                    allocationState.AddArrivalLog(AppConstants.ADMINISTRATOR_ID, ArrivalStatus.Arrived, DateTime.Now.ToEuTimeZone(), null);
+                    allocationStateRepository.Update(allocationState);
                 }
+                await _appDbContext.SaveChangesAsync();
             }
             catch (Exception exception)
             {
