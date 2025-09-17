@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.ApplicationInsights;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
+using Azure.Storage.Blobs;
+using Azure;
 
 namespace Munk.Azure.Storage
 {
@@ -17,13 +17,14 @@ namespace Munk.Azure.Storage
             try
             {
                 containerName = containerName.ToLower();
-                CloudBlobContainer cloudBlobContainer = GetBlobContainer(containerName);
-                CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(fileId.ToString());
+                BlobContainerClient blobContainerClient = GetBlobContainer(containerName);
+                BlobClient blobClient = blobContainerClient.GetBlobClient(fileId.ToString());
 
-                var result = await cloudBlockBlob.DeleteIfExistsAsync();
+                var response = await blobClient.DeleteIfExistsAsync();
+                var result = response.Value;
                 return result;
             }
-            catch (StorageException ex)
+            catch (RequestFailedException ex)
             {
                 _telemetryClient.TrackException(ex);
                 Console.WriteLine((string)"Error returned from the AzureStorageDeleter: {0}", (object)ex.Message);
