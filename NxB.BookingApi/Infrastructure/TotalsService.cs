@@ -8,6 +8,7 @@ using NxB.BookingApi.Models;
 using NxB.Dto.AccountingApi;
 using NxB.Clients.Interfaces;
 using NxB.Settings.Shared.Infrastructure;
+using NxB.Clients;
 
 namespace NxB.BookingApi.Infrastructure
 {

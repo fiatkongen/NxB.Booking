@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NxB.Domain.Common\NxB.Domain.Common.csproj" />
+    <ProjectReference Include="..\Munk.Utils.Object\Munk.Utils.Object.csproj" />
   </ItemGroup>
 
 </Project>

@@ -20,9 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NxB.BookingApi\Dependencies\NxB.Domain.Common\NxB.Domain.Common.csproj" />
-    <ProjectReference Include="..\NxB.BookingApi\Dependencies\NxB.Dto\NxB.Dto.csproj" />
-    <ProjectReference Include="..\NxB.BookingApi\Dependencies\NxB.Settings.Shared.Infrastructure\NxB.Settings.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="..\NxB.Domain.Common\NxB.Domain.Common.csproj" />
+    <ProjectReference Include="..\NxB.Dto\NxB.Dto.csproj" />
+    <ProjectReference Include="..\NxB.Settings.Shared.Infrastructure\NxB.Settings.Shared.Infrastructure.csproj" />
     <ProjectReference Include="..\Munk.AspNetCore\Munk.AspNetCore.csproj" />
   </ItemGroup>
 

@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NxB.BookingApi\Dependencies\NxB.Domain.Common\NxB.Domain.Common.csproj" />
+    <ProjectReference Include="..\NxB.Domain.Common\NxB.Domain.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

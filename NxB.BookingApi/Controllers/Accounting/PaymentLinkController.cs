@@ -36,6 +36,7 @@ using QuickPay.SDK.Models.Payments;
 using ServiceStack;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 using Payment = NxB.BookingApi.Models.Payment;
+using NxB.Clients;
 
 
 namespace NxB.BookingApi.Controllers.Accounting

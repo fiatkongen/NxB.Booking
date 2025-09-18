@@ -24,6 +24,7 @@ using NxB.Settings.Shared.Infrastructure;
 using NxB.BookingApi.Infrastructure;
 using TenantModel = NxB.BookingApi.Models.Tenant;
 using NxB.BookingApi.Models;
+using NxB.Clients.Interfaces;
 
 //http://hamidmosalla.com/2017/03/29/asp-net-core-action-results-explained/
 //https://aspnetboilerplate.com/Pages/Documents/Validating-Data-Transfer-Objects

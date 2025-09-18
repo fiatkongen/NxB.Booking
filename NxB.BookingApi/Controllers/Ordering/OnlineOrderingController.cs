@@ -33,6 +33,7 @@ using NxB.BookingApi.Models;
 using NxB.Settings.Shared.Infrastructure;
 using Polly;
 using QuickPay.SDK;
+using NxB.Clients;
 
 namespace NxB.BookingApi.Controllers.Ordering
 {
