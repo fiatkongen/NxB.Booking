@@ -120,6 +120,26 @@ static void ConfigureTenantServices(IServiceCollection services, IConfiguration 
     services.AddScoped<ExternalPaymentTransactionFactory>();
 }
 
+static void ConfigurePricingServices(IServiceCollection services, IConfiguration configuration)
+{
+    // Services from PricingApi Startup.cs (Service Fabric dependencies removed)
+
+    // Register repositories
+    services.AddScoped<IPriceProfileRepository, PriceProfileRepository>();
+    services.AddScoped<ICostIntervalRepository, CostIntervalRepository>();
+
+    // Register services
+    services.AddScoped<IPriceCalculator, PriceCalculator>();
+    services.AddScoped<IPriceProfilesValidator, PriceProfilesValidator>();
+
+    // Register factories
+    services.AddScoped<PriceProfileFactory>();
+    services.AddScoped<CostIntervalFactory>();
+
+    // Add pricing AutoMapper profile
+    services.AddAutoMapper(typeof(PricingMappingProfile));
+}
+
 static void ConfigureCommonServices(IServiceCollection services, ConfigurationManager configuration)
 {
     services.AddAutoMapper(typeof(Program));
