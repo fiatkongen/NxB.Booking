@@ -30,6 +30,7 @@ ConfigureAccountingServices(builder.Services, builder.Configuration);
 ConfigureInventoryServices(builder.Services, builder.Configuration);
 ConfigureLoginServices(builder.Services, builder.Configuration);
 ConfigureTenantServices(builder.Services, builder.Configuration);
+ConfigurePricingServices(builder.Services, builder.Configuration);
 
 var app = builder.Build();
 
@@ -98,4 +99,24 @@ static void ConfigureTenantServices(IServiceCollection services, IConfiguration 
     services.AddScoped<KioskFactory>();
     services.AddScoped<FeatureModuleFactory>();
     services.AddScoped<ExternalPaymentTransactionFactory>();
+}
+
+static void ConfigurePricingServices(IServiceCollection services, IConfiguration configuration)
+{
+    // Services from PricingApi Startup.cs (Service Fabric dependencies removed)
+
+    // Register repositories
+    services.AddScoped<IPriceProfileRepository, PriceProfileRepository>();
+    services.AddScoped<ICostIntervalRepository, CostIntervalRepository>();
+
+    // Register services
+    services.AddScoped<IPriceCalculator, PriceCalculator>();
+    services.AddScoped<IPriceProfilesValidator, PriceProfilesValidator>();
+
+    // Register factories
+    services.AddScoped<PriceProfileFactory>();
+    services.AddScoped<CostIntervalFactory>();
+
+    // Add pricing AutoMapper profile
+    services.AddAutoMapper(typeof(PricingMappingProfile));
 }

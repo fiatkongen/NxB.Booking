@@ -72,6 +72,10 @@ namespace NxB.BookingApi.Infrastructure
         public DbSet<FeatureModuleTenantEntry> FeatureModuleTenantEntries { get; set; }
         public DbSet<ExternalPaymentTransaction> ExternalPaymentTransactions { get; set; }
 
+        // Pricing entities (from PricingApi)
+        public DbSet<PriceProfile> PriceProfiles { get; set; }
+        public DbSet<CostInterval> CostIntervals { get; set; }
+
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options, null)
         {
             //fixes error https://docs.microsoft.com/en-us/ef/core/what-is-new/ef-core-3.0/breaking-changes se Cascade deletions now happen immediately by default
@@ -280,6 +284,33 @@ namespace NxB.BookingApi.Infrastructure
             modelBuilder.Entity<ExternalPaymentTransaction>().Property(x => x.Status).HasMaxLength(50);
             modelBuilder.Entity<ExternalPaymentTransaction>().Property(x => x.TransactionId).HasMaxLength(50);
             modelBuilder.Entity<ExternalPaymentTransaction>().Property(x => x.TransactionType).HasMaxLength(50);
+
+            // Pricing entity configurations (from PricingApi)
+            modelBuilder.Entity<PriceProfile>().ToTable("PriceProfile");
+            modelBuilder.Entity<PriceProfile>().Property(x => x.Id).ValueGeneratedNever();
+            modelBuilder.Entity<PriceProfile>().Property(x => x.TenantId).IsRequired();
+            modelBuilder.Entity<PriceProfile>().Property(x => x.Name).HasMaxLength(50);
+            modelBuilder.Entity<PriceProfile>().Property(x => x.Description).HasMaxLength(1000);
+
+            modelBuilder.Entity<CostInterval>().ToTable("CostInterval");
+            modelBuilder.Entity<CostInterval>()
+                .HasDiscriminator<string>("CostType")
+                .HasValue<CostIntervalDay>("CostIntervalDay")
+                .HasValue<CostIntervalFixed>("CostIntervalFixed")
+                .HasValue<CostIntervalDayMinMax>("CostIntervalDayMinMax")
+                .HasValue<CostIntervalMonth>("CostIntervalMonth")
+                .HasValue<CostIntervalYear>("CostIntervalYear")
+                .HasValue<CostIntervalMonthSpecific>("CostIntervalMonthSpecific")
+                .HasValue<CostIntervalDaySpecific>("CostIntervalDaySpecific")
+                .HasValue<CostIntervalDaySpecificStartDay>("CostIntervalDaySpecificStartDay")
+                .HasValue<CostFlexInterval>("CostFlexInterval");
+            modelBuilder.Ignore<CostItemSpecificMonth>();
+            modelBuilder.Ignore<CostItemSpecificDay>();
+            modelBuilder.Entity<CostInterval>().Property(x => x.Id).ValueGeneratedNever();
+            modelBuilder.Entity<CostInterval>().Property(x => x.TenantId).IsRequired();
+            modelBuilder.Entity<CostInterval>().Property(x => x.CostType).HasMaxLength(50);
+
+            modelBuilder.Ignore<CostSpan>();
 
             ModifyDefaultCascadeBehavior(modelBuilder, DeleteBehavior.Restrict);
         }
