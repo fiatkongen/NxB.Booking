@@ -6,6 +6,10 @@ using NxB.BookingApi.Controllers.Inventory;
 using NxB.BookingApi.Controllers.Login;
 using NxB.BookingApi.Infrastructure;
 using NxB.BookingApi.Models;
+using Munk.AspNetCore;
+using NxB.Domain.Common.Interfaces;
+using NxB.Settings.Shared.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +29,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add custom services from merged APIs
+ConfigureCommonServices(builder.Services, builder.Configuration);
 ConfigureOrderingServices(builder.Services, builder.Configuration);
 ConfigureAccountingServices(builder.Services, builder.Configuration);
 ConfigureInventoryServices(builder.Services, builder.Configuration);
@@ -51,8 +56,22 @@ app.Run();
 static void ConfigureOrderingServices(IServiceCollection services, IConfiguration configuration)
 {
     // Services from OrderingApi Startup.cs
-    // Note: Service Fabric specific services removed/replaced with standard equivalents
-    services.AddAutoMapper(typeof(Program));
+    services.AddScoped<IAvailabilityMatrixRepository, AvailabilityMatrixRepository<AppDbContext>>();
+    services.AddScoped<AvailabilityMatrixFactory>();
+    services.AddScoped<IAppDbContextFactory<AppDbContext>, AppDbContextFactory<AppDbContext>>();
+    services.AddScoped<IAllocationRepository, AllocationRepository<AppDbContext>>();
+    services.AddScoped<IAllocationRepositoryCached, AllocationRepositoryCached>();
+    services.AddScoped<IStartDateTimeChunkDivider, StartDateTimeChunkDivider>();
+    services.AddScoped<IRentalCacheProvider, RentalAvailabilityCacheFactory>();
+    services.AddScoped<IRentalCaches, RentalCaches>();
+    services.AddScoped<IRentalUnitRepository, RentalUnitRepository<AppDbContext>>();
+    services.AddScoped<ICounterIdProvider, CounterIdProvider<AppDbContext>>();
+    services.AddSingleton<IAuthorTranslator<AppDbContext>, AuthorTranslator<AppDbContext>>();
+    services.AddScoped<ISettingsRepository, SettingsRepository<AppDbContext>>();
+    //services.AddScoped<IKeyCodeGenerator, KeyCodeGenerator>();
+
+    //services.AddScoped<IPriceProfilesValidator, PriceProfile>();
+    //services.AddSingleton(sp => ServiceProxyHelper.CreateActorServiceProxy<IMemCacheActor>(0));}
 }
 
 static void ConfigureAccountingServices(IServiceCollection services, IConfiguration configuration)
@@ -101,22 +120,7 @@ static void ConfigureTenantServices(IServiceCollection services, IConfiguration 
     services.AddScoped<ExternalPaymentTransactionFactory>();
 }
 
-static void ConfigurePricingServices(IServiceCollection services, IConfiguration configuration)
+static void ConfigureCommonServices(IServiceCollection services, ConfigurationManager configuration)
 {
-    // Services from PricingApi Startup.cs (Service Fabric dependencies removed)
-
-    // Register repositories
-    services.AddScoped<IPriceProfileRepository, PriceProfileRepository>();
-    services.AddScoped<ICostIntervalRepository, CostIntervalRepository>();
-
-    // Register services
-    services.AddScoped<IPriceCalculator, PriceCalculator>();
-    services.AddScoped<IPriceProfilesValidator, PriceProfilesValidator>();
-
-    // Register factories
-    services.AddScoped<PriceProfileFactory>();
-    services.AddScoped<CostIntervalFactory>();
-
-    // Add pricing AutoMapper profile
-    services.AddAutoMapper(typeof(PricingMappingProfile));
+    services.AddAutoMapper(typeof(Program));
 }
