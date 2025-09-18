@@ -9,7 +9,6 @@ using Munk.Utils.Object;
 using NxB.BookingApi.Infrastructure;
 using NxB.BookingApi.Models;
 using NxB.Dto.AccountingApi;
-using NxB.Dto.Clients;
 
 namespace NxB.BookingApi.Controllers.Accounting
 {

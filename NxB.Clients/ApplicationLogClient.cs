@@ -8,6 +8,7 @@ using NxB.Domain.Common.Model;
 using NxB.Dto.ApplicationLogApi;
 using NxB.Clients.Interfaces;
 using NxB.Dto.LogApi;
+using Munk.AspNetCore;
 
 namespace NxB.Clients
 {

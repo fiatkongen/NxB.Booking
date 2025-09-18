@@ -15,10 +15,11 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
     <PackageReference Include="ServiceStack.Core" Version="5.13.2" />
     <PackageReference Include="ServiceStack.Interfaces.Core" Version="5.13.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NxB.Domain.Common\NxB.Domain.Common.csproj" />
+    <ProjectReference Include="..\NxB.BookingApi\Dependencies\NxB.Domain.Common\NxB.Domain.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

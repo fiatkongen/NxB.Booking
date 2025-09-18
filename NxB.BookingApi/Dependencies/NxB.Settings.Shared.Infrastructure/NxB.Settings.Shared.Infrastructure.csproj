@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Munk.AspNetCore\Munk.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\..\Munk.AspNetCore\Munk.AspNetCore.csproj" />
     <ProjectReference Include="..\NxB.Domain.Common\NxB.Domain.Common.csproj" />
     <ProjectReference Include="..\NxB.Dto\NxB.Dto.csproj" />
   </ItemGroup>

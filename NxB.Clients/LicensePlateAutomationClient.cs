@@ -43,7 +43,7 @@ namespace NxB.Clients
             await this.DeleteAsync(url);
         }
 
-        public async Task<LicensePlateAccessDto?> FindAccess(string id)
+        public async Task<LicensePlateAccessDto> FindAccess(string id)
         {
             var url = $"{SERVICEURL}/licenseplateautomation/{id}";
             return await this.GetAsync<LicensePlateAccessDto>(url);
