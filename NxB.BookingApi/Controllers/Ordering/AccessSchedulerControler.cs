@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Munk.AspNetCore;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 using NxB.Dto.OrderingApi;
 using NxB.Dto.TallyWebIntegrationApi;
 using NxB.BookingApi.Infrastructure;

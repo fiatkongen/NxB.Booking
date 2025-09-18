@@ -4,7 +4,7 @@ using NxB.BookingApi.Models;
 using Microsoft.Extensions.DependencyInjection;
 using NxB.Domain.Common.Enums;
 using NxB.Domain.Common.Model;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 using NxB.Dto.OrderingApi;
 using NxB.Settings.Shared.Infrastructure;
 using NxB.Dto.Shared;

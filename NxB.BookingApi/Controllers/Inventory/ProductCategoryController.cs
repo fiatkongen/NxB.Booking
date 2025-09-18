@@ -14,7 +14,7 @@ using NxB.BookingApi.Infrastructure;
 using NxB.BookingApi.Models;
 using NxB.Dto.InventoryApi;
 using NxB.Dto.PricingApi;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 
 namespace NxB.BookingApi.Controllers.Inventory
 {

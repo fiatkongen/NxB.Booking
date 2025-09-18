@@ -17,7 +17,7 @@ using Munk.Utils.Object;
 using Newtonsoft.Json;
 using NxB.Domain.Common.Constants;
 using NxB.Dto;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 using NxB.Dto.LoginApi;
 using NxB.Dto.TenantApi;
 using NxB.BookingApi.Exceptions;

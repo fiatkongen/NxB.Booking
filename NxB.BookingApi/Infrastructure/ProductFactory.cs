@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using NxB.Domain.Common.Interfaces;
 using NxB.Dto.AllocationApi;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 using NxB.Dto.InventoryApi;
 using NxB.Dto.PricingApi;
 using NxB.BookingApi.Models;

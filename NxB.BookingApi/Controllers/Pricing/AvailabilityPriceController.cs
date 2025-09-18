@@ -12,7 +12,7 @@ using Munk.AspNetCore;
 // using NxB.Allocating.Shared.Model;
 using NxB.Domain.Common.Interfaces;
 using NxB.Dto.AllocationApi;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 using NxB.Dto.PricingApi;
 using NxB.BookingApi.Models;
 using NxB.BookingApi.Exceptions;

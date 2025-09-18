@@ -17,7 +17,7 @@ using NxB.Domain.Common.Enums;
 using NxB.Domain.Common.Interfaces;
 using NxB.Domain.Common.Model;
 using NxB.Dto.AccountingApi;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 using NxB.Settings.Shared.Infrastructure;
 using QuickPay.SDK;
 

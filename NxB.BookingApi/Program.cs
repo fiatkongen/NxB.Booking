@@ -11,7 +11,7 @@ using NxB.Domain.Common.Interfaces;
 using NxB.Settings.Shared.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Munk.Azure.Storage;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

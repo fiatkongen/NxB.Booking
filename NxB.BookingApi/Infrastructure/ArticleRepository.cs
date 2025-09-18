@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Munk.AspNetCore;
 using NxB.Domain.Common.Interfaces;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 using NxB.BookingApi.Models;
 
 namespace NxB.BookingApi.Infrastructure

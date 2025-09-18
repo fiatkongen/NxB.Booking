@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NxB.Domain.Common.Constants;
 using NxB.Domain.Common.Interfaces;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 using NxB.Dto.LoginApi;
 using NxB.Dto.TenantApi;
 

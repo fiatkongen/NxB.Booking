@@ -7,7 +7,7 @@ using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
 using Munk.Utils.Object;
 using NxB.Dto.AccountingApi;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 using NxB.Dto.DocumentApi;
 using NxB.Dto.TenantApi;
 using NxB.BookingApi.Models;

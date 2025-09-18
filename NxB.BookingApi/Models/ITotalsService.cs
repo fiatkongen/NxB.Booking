@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using NxB.Dto.AccountingApi;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 
 namespace NxB.BookingApi.Models
 {

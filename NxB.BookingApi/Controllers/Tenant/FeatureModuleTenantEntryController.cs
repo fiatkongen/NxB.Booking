@@ -13,7 +13,7 @@ using NxB.Settings.Shared.Infrastructure;
 using NxB.Dto.TenantApi;
 using NxB.BookingApi.Models;
 using Munk.Utils.Object;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 using NxB.Dto.AllocationApi;
 
 namespace NxB.BookingApi.Controllers.Tenant

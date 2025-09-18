@@ -14,7 +14,7 @@ using NxB.BookingApi.Models;
 using NxB.Domain.Common.Interfaces;
 using NxB.Domain.Common.Model;
 using NxB.Dto.AccountingApi;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 
 namespace NxB.BookingApi.Controllers.Accounting
 {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 using NxB.Settings.Shared.Infrastructure;
 
 namespace NxB.BookingApi.Infrastructure

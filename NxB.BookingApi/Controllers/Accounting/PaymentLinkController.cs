@@ -26,7 +26,7 @@ using NxB.Domain.Common.Constants;
 using NxB.Domain.Common.Enums;
 using NxB.Domain.Common.Model;
 using NxB.Dto.AccountingApi;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 using NxB.Dto.LogApi;
 using NxB.Dto.OrderingApi;
 using NxB.Dto.TenantApi;

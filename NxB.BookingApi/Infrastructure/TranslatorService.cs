@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Google.Cloud.Translation.V2;
 using Microsoft.AspNetCore.Mvc;
 using Munk.AspNetCore;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 using NxB.Dto.DocumentApi;
 using System.Web;
 using Munk.Utils.Object;

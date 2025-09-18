@@ -22,7 +22,7 @@ using NxB.Domain.Common.Model;
 using NxB.Dto.AccountingApi;
 using NxB.Dto.AllocationApi;
 using NxB.Dto.AutomationApi;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 using NxB.Dto.DocumentApi;
 using NxB.Dto.JobApi;
 using NxB.Dto.LogApi;

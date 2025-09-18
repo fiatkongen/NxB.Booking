@@ -11,7 +11,7 @@ using Munk.AspNetCore;
 using Munk.Utils.Object;
 using NxB.Domain.Common.Enums;
 using NxB.Domain.Common.Interfaces;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 using NxB.Dto.TenantApi;
 using NxB.BookingApi.Infrastructure;
 using NxB.BookingApi.Models;

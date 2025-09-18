@@ -12,7 +12,7 @@ using Munk.Utils.Object;
 using Newtonsoft.Json;
 using NxB.Domain.Common.Enums;
 using NxB.Domain.Common.Interfaces;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 using NxB.Dto.OrderingApi;
 using NxB.Dto.TallyWebIntegrationApi;
 using NxB.BookingApi.Exceptions;

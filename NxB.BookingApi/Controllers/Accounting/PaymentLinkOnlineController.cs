@@ -17,7 +17,7 @@ using NxB.BookingApi.Infrastructure;
 using NxB.BookingApi.Models;
 using NxB.Domain.Common.Model;
 using NxB.Dto.AccountingApi;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 using NxB.Settings.Shared.Infrastructure;
 using Polly;
 using QuickPay.SDK.Models.Payments;

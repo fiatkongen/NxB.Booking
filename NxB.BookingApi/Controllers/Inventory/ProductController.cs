@@ -11,7 +11,7 @@ using Munk.AspNetCore;
 using Munk.Utils.Object;
 using NxB.Domain.Common.Dto;
 using NxB.Dto.AllocationApi;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 using NxB.Dto.InventoryApi;
 using NxB.Dto.PricingApi;
 using NxB.Dto.TenantApi;

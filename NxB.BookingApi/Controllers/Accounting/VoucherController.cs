@@ -24,7 +24,7 @@ using NxB.BookingApi.Models;
 using NxB.Domain.Common.Enums;
 using NxB.Domain.Common.Interfaces;
 using NxB.Dto.AccountingApi;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 using NxB.Dto.Exceptions;
 using NxB.Dto.OrderingApi;
 

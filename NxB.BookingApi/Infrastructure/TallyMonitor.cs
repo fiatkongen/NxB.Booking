@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting.Server.Features;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 // TODO: Remove Service Fabric dependency when migration is complete
 // using NxB.MemCacheActor.Interfaces;
 

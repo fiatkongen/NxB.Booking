@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Munk.Utils.Object;
 using NxB.BookingApi.Models;
 using NxB.Domain.Common.Interfaces;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 using NxB.Settings.Shared.Infrastructure;
 
 namespace NxB.BookingApi.Infrastructure

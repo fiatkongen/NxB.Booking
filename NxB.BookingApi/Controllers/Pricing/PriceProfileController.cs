@@ -15,7 +15,7 @@ using NxB.Domain.Common.Constants;
 using NxB.Domain.Common.Dto;
 using NxB.Domain.Common.Interfaces;
 using NxB.Dto.AllocationApi;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 using NxB.Dto.PricingApi;
 using NxB.BookingApi.Models;
 // TODO: Replace Service Fabric MemCacheActor functionality

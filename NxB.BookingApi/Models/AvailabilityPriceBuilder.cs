@@ -10,7 +10,7 @@ using NxB.Allocating.Shared.Infrastructure;
 // TODO: Remove or replace Allocating.Shared.Model references that don't exist
 // using NxB.Allocating.Shared.Model;
 using NxB.Dto.AllocationApi;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 using NxB.Dto.PricingApi;
 // TODO: Remove old namespace references
 // using NxB.PricingApi.Exceptions;

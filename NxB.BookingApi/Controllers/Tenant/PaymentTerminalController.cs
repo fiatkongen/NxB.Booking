@@ -10,7 +10,7 @@ using AutoMapper;
 using Microsoft.ApplicationInsights;
 using Newtonsoft.Json;
 using NxB.Domain.Common.Enums;
-using NxB.Dto.Clients;
+using NxB.Clients.Interfaces;
 using NxB.Dto.DocumentApi;
 using NxB.BookingApi.Infrastructure;
 using NxB.BookingApi.Models;
