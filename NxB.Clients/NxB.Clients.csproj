@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="ServiceStack.Client.Core" Version="5.13.2" />
+    <PackageReference Include="ServiceStack.HttpClient.Core" Version="5.13.2" />
+    <PackageReference Include="ServiceStack.Interfaces.Core" Version="5.13.2" />
+    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.21.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.35.0" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="4.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NxB.BookingApi\Dependencies\NxB.Domain.Common\NxB.Domain.Common.csproj" />
+    <ProjectReference Include="..\NxB.BookingApi\Dependencies\NxB.Dto\NxB.Dto.csproj" />
+    <ProjectReference Include="..\NxB.BookingApi\Dependencies\NxB.Settings.Shared.Infrastructure\NxB.Settings.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="..\NxB.BookingApi\Dependencies\Munk.AspNetCore\Munk.AspNetCore.csproj" />
+  </ItemGroup>
+
+</Project>

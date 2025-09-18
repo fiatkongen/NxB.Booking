@@ -10,6 +10,8 @@ using Munk.AspNetCore;
 using NxB.Domain.Common.Interfaces;
 using NxB.Settings.Shared.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Munk.Azure.Storage;
+using NxB.Dto.Clients;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +38,7 @@ ConfigureInventoryServices(builder.Services, builder.Configuration);
 ConfigureLoginServices(builder.Services, builder.Configuration);
 ConfigureTenantServices(builder.Services, builder.Configuration);
 ConfigurePricingServices(builder.Services, builder.Configuration);
+ConfigureTallyWebIntegrationServices(builder.Services, builder.Configuration);
 
 var app = builder.Build();
 
@@ -76,9 +79,19 @@ static void ConfigureOrderingServices(IServiceCollection services, IConfiguratio
 
 static void ConfigureAccountingServices(IServiceCollection services, IConfiguration configuration)
 {
-    // Services from AccountingApi Startup.cs
-    // Note: Service Fabric specific services removed/replaced with standard equivalents
-    services.AddAutoMapper(typeof(Program));
+    services.AddScoped<ICustomerRepository, CustomerRepository>();
+    services.AddScoped<CustomerFactory>();
+    services.AddScoped<IClientIdProvider, ClientIdProvider>();
+    services.AddScoped<IAzureStorageExporter, AzureStorageExporter>();
+    services.AddScoped<ISettingsRepository, SettingsRepository<AppDbContext>>();
+    services.AddSingleton<IAuthorTranslator<AppDbContext>, AuthorTranslator<AppDbContext>>();
+    services.AddScoped<ISmallRentalUnitCategoryRepository, SmallRentalUnitCategoryRepository>();
+    //services.AddScoped<IDocumentClient, DocumentClient>();
+    services.AddScoped<IOrderingService, OrderingService>();
+    services.AddScoped<IBillingService, BillingService>();
+    //services.AddScoped<IClientBroadcaster, ClientBroadcaster>();
+    //services.AddScoped<IMemCacheActor, MemCacheActor>();
+    services.AddAutoMapper(typeof(MappingProfile));
 }
 
 static void ConfigureInventoryServices(IServiceCollection services, IConfiguration configuration)
@@ -138,6 +151,45 @@ static void ConfigurePricingServices(IServiceCollection services, IConfiguration
 
     // Add pricing AutoMapper profile
     services.AddAutoMapper(typeof(PricingMappingProfile));
+}
+
+static void ConfigureTallyWebIntegrationServices(IServiceCollection services, IConfiguration configuration)
+{
+    // Services from TallyWebIntegrationApi Startup.cs (Service Fabric dependencies removed)
+
+    // Register DbContexts
+    services.AddScoped<AppTallyDbContext>();
+
+    // Register repositories
+    services.AddScoped<IAccessGroupRepository, AccessGroupRepository>();
+    services.AddScoped<IMasterRadioRepository, MasterRadioRepository>();
+    services.AddScoped<IRadioBillingRepository, RadioBillingRepository>();
+    services.AddScoped<ISetupRepository, SetupRepository>();
+    // TODO: Fix interface naming - services.AddScoped<ITconMasterRadioTenantMapRepository, TConMasterRadioTenantMapRepository>();
+    // TODO: Fix repository implementation - services.AddScoped<ITconRepository, TconRepository>();
+
+    // Register services
+    services.AddScoped<IKeyCodeGenerator, KeyCodeGenerator>();
+    // TODO: Implement TConService - services.AddScoped<ITConService, TConService>();
+    services.AddScoped<ITallyMonitor, TallyMonitor>();
+    services.AddScoped<ITConSqlBuilder, TConSqlBuilder>();
+    // TODO: Implement IDbConnectionFactory - services.AddScoped<IDbConnectionFactory, TallyDbConnectionFactory>();
+
+    // Register factories - TODO: Create missing factory classes
+    services.AddScoped<AccessGroupFactory>();
+    // TODO: Create missing factories
+    // services.AddScoped<MasterRadioFactory>();
+    // services.AddScoped<RadioFactory>();
+    // services.AddScoped<RadioAccessCodeFactory>();
+    // services.AddScoped<RadioBillingFactory>();
+    // services.AddScoped<SetupAccessFactory>();
+    // services.AddScoped<SetupPeriodFactory>();
+    // services.AddScoped<SocketFactory>();
+    // services.AddScoped<SocketSwitchControllerFactory>();
+    // services.AddScoped<SwitchFactory>();
+
+    // Add TallyWebIntegration AutoMapper profile
+    services.AddAutoMapper(typeof(TallyMappingProfile));
 }
 
 static void ConfigureCommonServices(IServiceCollection services, ConfigurationManager configuration)

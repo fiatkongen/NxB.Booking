@@ -76,6 +76,11 @@ namespace NxB.BookingApi.Infrastructure
         public DbSet<PriceProfile> PriceProfiles { get; set; }
         public DbSet<CostInterval> CostIntervals { get; set; }
 
+        // TallyWebIntegration entities (from TallyWebIntegrationApi)
+        public DbSet<TConMasterRadioTenantMap> TallyMasterRadioTenantMaps { get; set; }
+        public DbSet<AccessGroup> AccessGroups { get; set; }
+        public DbSet<RadioBilling> RadioBillings { get; set; }
+
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options, null)
         {
             //fixes error https://docs.microsoft.com/en-us/ef/core/what-is-new/ef-core-3.0/breaking-changes se Cascade deletions now happen immediately by default
@@ -311,6 +316,23 @@ namespace NxB.BookingApi.Infrastructure
             modelBuilder.Entity<CostInterval>().Property(x => x.CostType).HasMaxLength(50);
 
             modelBuilder.Ignore<CostSpan>();
+
+            // TallyWebIntegration entity configurations
+            modelBuilder.Entity<TConMasterRadioTenantMap>().ToTable("TallyMasterRadioTenantMap");
+            modelBuilder.Entity<TConMasterRadioTenantMap>().Property(x => x.Id);
+            modelBuilder.Entity<TConMasterRadioTenantMap>().HasAlternateKey(x => new { x.TallyMasterRadioId, x.TenantId });
+
+            modelBuilder.Entity<AccessGroup>().ToTable("TallyAccessGroup");
+            modelBuilder.Entity<AccessGroup>().HasKey(x => x.Id);
+            modelBuilder.Entity<AccessGroup>().Property(x => x.Name).HasMaxLength(100);
+            modelBuilder.Entity<AccessGroup>().Ignore(x => x.SocketRadios);
+            modelBuilder.Entity<AccessGroup>().Ignore(x => x.SwitchRadios);
+
+            modelBuilder.Entity<RadioBilling>().ToTable("TallyRadioBilling");
+            modelBuilder.Entity<RadioBilling>().HasKey(x => x.RadioAddress);
+            modelBuilder.Entity<RadioBilling>().Property(x => x.RadioAddress).ValueGeneratedNever();
+
+            Counter.AddCounterModelToContext(modelBuilder);
 
             ModifyDefaultCascadeBehavior(modelBuilder, DeleteBehavior.Restrict);
         }
